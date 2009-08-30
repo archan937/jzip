@@ -1,3 +1,20 @@
+
+class String
+  
+  def jzip_require_statement?
+    self.strip.match(Jzip::Plugin::REG_EXPS[:require_statement])
+  end
+  
+  def required_jzip_source(exclude_exclamation_mark = true)
+    self.strip.gsub(Regexp.new([Jzip::Plugin::REG_EXPS[:require_statement].source, ("\!?" if exclude_exclamation_mark)].compact.join), "").strip if self.jzip_require_statement?
+  end
+  
+  def overrule_jzip_minification?
+    !!required_jzip_source(false).match(/^!/) if self.jzip_require_statement?
+  end
+  
+end
+
 module Jzip
   module Controller
     def self.included(base)
@@ -16,6 +33,9 @@ module Jzip
 
   module Plugin
     extend self
+    
+    REG_EXPS = {:require_statement => /^\/\/\=\s*require\s*/}
+    TMP_DIR  = File.join(RAILS_ROOT, "tmp", "jzip")
     
     @options = {
       :template_location => File.join(RAILS_ROOT, "assets", "jzip"),
@@ -50,58 +70,74 @@ module Jzip
     
     def parse_templates(source, target)
       Dir.glob(File.join(source, "**", "*.jz")).each do |template|
-        parse(template, source, target)
+        parse(derive_attributes(template, source, target))
       end
     end
     
-    def parse(template, source, target)
-      require_regexp = /^\/\/\=\s*require\s*/
+    def derive_attributes(template, source, target)
+      {:template     => template,
+       :requirements => File.open(template).readlines.collect{|x| requirements(template, x.required_jzip_source) if x.jzip_require_statement?}.compact.flatten,
+       :file_name    => (file_name  = "#{File.basename(template, ".jz")}.js"),
+       :target_dir   => (target_dir = File.dirname(File.join(target, template.gsub(source, "")))),
+       :target_file  => File.join(target_dir, file_name)}
+    end
+    
+    def requirements(template, required_source)
+      defaults = %w(prototype effects dragdrop controls)
+      defaults << "application" if File.exists?(File.join(RAILS_ROOT, "public", "javascripts", "application.js"))
       
-      code = File.open(template).readlines.collect do |line|
-        if line.strip.match(require_regexp)
-          arg = line.strip.gsub(require_regexp, "").strip
-          requirements(template, arg).collect{|x| File.open(x).read}.join("\n\n") + "\n\n"
+      required_source == "defaults" ?
+        defaults.collect{|x| File.join(RAILS_ROOT, "public", "javascripts", "#{x}.js")} :
+        [File.join(File.dirname(template), "#{required_source}.js")]
+    end
+    
+    def parse(attributes)
+      return unless requires_parsing?(attributes)
+      notify("Parsing template '#{attributes[:template]}'")
+      
+      code = File.open(attributes[:template]).readlines.collect do |line|
+        if line.jzip_require_statement?
+          requirements(attributes[:template], line.required_jzip_source).collect do |x|
+            require_code(attributes, x, line.overrule_jzip_minification?)
+          end.join("\n\n") + "\n\n"
         else
           line
         end
       end
       
-      publish(template, code, source, target)
+      publish(attributes, code)
     end
     
-    def requirements(template, arg)
-      defaults = %w(prototype effects dragdrop controls)
-      defaults << "application" if File.exists?(File.join(RAILS_ROOT, "public", "javascripts", "application.js"))
-      
-      arg == "defaults" ?
-        defaults.collect{|x| File.join(RAILS_ROOT, "public", "javascripts", "#{x}.js")} :
-        [File.join(File.dirname(template), "#{arg}.js")]
+    def requires_parsing?(attributes)
+      return true unless File.exists?(attributes[:target_file])
+
+      latest_modification_time = File.mtime(attributes[:target_file])
+      ([attributes[:template]] + attributes[:requirements]).any?{|x| File.mtime(x) > latest_modification_time}
     end
     
-    def publish(template, code, source, target)
-      tmp_dir     = File.join(RAILS_ROOT, "tmp", "jzip")
-      target_dir  = File.dirname(File.join(target, template.gsub(source, "")))
+    def require_code(attributes, required_source, overrule_minification)
+      if options[:minify]
+        if overrule_minification
+          notify("Overruling minification of '#{required_source}'")
+        else
+          tmp_file = File.join(TMP_DIR, attributes[:file_name])
+          `ruby #{File.join(File.dirname(__FILE__), "support", "jsmin.rb")} <#{required_source} >#{tmp_file}`
+        end
+      end
       
-      file_name   = "#{File.basename(template, ".jz")}.js"
-      tmp_file    = File.join(tmp_dir, file_name)
-      target_file = File.join(target_dir, file_name)
-      
-      FileUtils.mkdir_p(tmp_dir)
-      FileUtils.mkdir_p(target_dir)
-      File.open(tmp_file, "w") do |f|
+      File.open(tmp_file || required_source).read
+      File.delete(tmp_file) if tmp_file
+    end
+    
+    def publish(attributes, code)
+      FileUtils.mkdir_p(attributes[:target_dir])
+      File.open(attributes[:target_file], "w") do |f|
         f.write(code)
       end
-      
-      if options[:minify]
-        tmp_min_file = tmp_file.gsub(".js", "-min.js")
-        
-        `ruby #{File.join(File.dirname(__FILE__), "support", "jsmin.rb")} <#{tmp_file} >#{tmp_min_file}`
-
-        FileUtils.mv tmp_min_file, target_file
-        File.delete  tmp_file
-      else
-        FileUtils.mv tmp_file, target_file
-      end
+    end
+    
+    def notify(message)
+      puts "== JZIP: #{message}"
     end
   end  
 end
