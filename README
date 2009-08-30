@@ -42,13 +42,13 @@ Jzip has some options that you can configure in the environment.rb file.
                      (default: "assets/jzip")
                      e.g. string: RAILS_ROOT + "/lib/jzip" 
                                   => target directory will be "public/javascripts"
-                          array:  [RAILS_ROOT + "/assets/jzip", RAILS_ROOT + "/vendor/plugins/some_plugin/assets/jzip"] 
+                          array:  [RAILS_ROOT + "/assets/jzip", RAILS_ROOT + "/vendor/plugins/foo/assets/jzip"]
                                   => target directory will be "public/javascripts"
                           hash:   {RAILS_ROOT + "/assets/jzip/betty" => RAILS_ROOT + "/public/javascripts/betty"}
                                   => target directory will be "public/javascripts/betty"
 :minify            - Minify the merged Javascript file using the JSMin library
                      (default: true when in production environment)
-:always_update     - Merge (and minify when specified) the Jzip templates on every page request (but not when already up-to-date)
+:always_update     - Merge (and minify when specified) the Jzip templates on every page request (only when outdated!)
                      (default: true when not in production environment)
 
 You can specify a Jzip option by putting the following in your environment.rb:
