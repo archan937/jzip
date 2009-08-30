@@ -1,0 +1,78 @@
+= Jzip
+
+Javascript merging and compression for Rails Apps
+
+== Introduction
+
+Jzip was created due to the need of simply merging and minifying Javascript files to reduce HTTP requests and file size of my assets.
+Using sprites for images and SASS for stylesheets only left javascripts not be optimized.
+AssetPackager almost suited the solution, but I wanted more flexibility in configuration.
+So I got inspired by AssetPackager and SASS to come up with the Jzip plugin.
+
+== How to use
+
+1. Download and install the plugin:
+   ./script/plugin install git://github.com/archan937/jzip.git 
+
+2. Create your .jz and .js files in the assets/jzip directory
+   (a Jzip template for the default Javascript is already available)
+
+3. Include the generated in your template (e.g. for the defaults)
+   <%= javascript_include_tag "defaults" %>
+
+4. Enjoy! :D
+
+== Documentation
+
+A .jz file (Jzip template) is nothing more than a common .js file in which you can require other Javascript files for merging.
+You can do this by simply adding the following: //= require < path_to_file >
+The path of the Javascript file has to be relative to the Jzip template.
+Other than the path to a Javascript file, you can also use "defaults" for the Prototype files and application.js which ships with a Rails application.
+
+The following specifies to merge the default Javascripts with three custom Javascript files into public/javascripts/foo.js:
+
+(assets/jzip/foo.jz)
+
+//= require shared/top_up
+//= require defaults
+//= require builder/module
+//= require builder/model_browser
+
+Jzip has some options that you can config in the environment.rb file.
+
+:template_location - Specifies the location of the Jzip templates. You can pass a string, an array of strings or hash (default "assets/jzip")
+                     e.g. string: RAILS_ROOT + "/lib/jzip" (target directory will be "public/javascripts")
+                          array:  [RAILS_ROOT + "/assets/jzip", RAILS_ROOT + "/vendor/plugins/some_plugin/assets/jzip"] (target directory will be "public/javascripts")
+                          hash:   {RAILS_ROOT + "/assets/jzip/betty" => RAILS_ROOT + "/public/javascripts/betty"} (target directory will be "public/javascripts/betty")
+:minify            - Minify the merged Javascript file using the JSMin library (default true when in production environment)
+:always_update     - Merge (and minify when specified) the Jzip templates on every page request (default true when not in production environment)
+
+== Credit
+
+This Rails plugin is inspired by:
+
+AssetPackager
+http://github.com/sbecker/asset_packager/tree/master
+
+SASS
+http://sass-lang.com
+
+Also, this plugin makes use of the Ruby JavaScript Minifier created by Douglas Crockford.
+http://www.crockford.com/javascript/jsmin.html
+
+== License
+Copyright (c) 2009 Paul Engel, released under the MIT license
+http://holder.nl - http://gettopup.com - paul.engel@holder.nl
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
+documentation files (the "Software"), to deal in the Software without restriction, including without limitation the 
+rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit 
+persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the 
+Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR 
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
