@@ -4,10 +4,8 @@ Javascript merging and compression for Rails Apps
 
 == Introduction
 
-Jzip was created due to the need of simply merging and minifying Javascript files to reduce HTTP requests and file size of my assets.
-Using sprites for images and SASS for stylesheets only left javascripts not be optimized.
-AssetPackager almost suited the solution, but I wanted more flexibility in configuration.
-So I got inspired by AssetPackager and SASS to come up with the Jzip plugin.
+Jzip was created due to the need of simply merging and minifying Javascript files to reduce HTTP requests and file size of my assets. Using sprites for images and SASS for stylesheets only left javascripts not be optimized.
+AssetPackager almost suited the solution, but I wanted more flexibility in configuration. So I got inspired by AssetPackager and SASS to come up with the Jzip plugin.
 
 == How to use
 
@@ -17,7 +15,7 @@ So I got inspired by AssetPackager and SASS to come up with the Jzip plugin.
 2. Create your .jz and .js files in the assets/jzip directory
    (a Jzip template for the default Javascript is already available)
 
-3. Include the generated in your template (e.g. for the defaults)
+3. Include the generated Javascript file in your template (e.g. for the defaults)
    <%= javascript_include_tag "defaults" %>
 
 4. Enjoy! :D
