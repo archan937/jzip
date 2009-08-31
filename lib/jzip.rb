@@ -125,8 +125,9 @@ module Jzip
         end
       end
       
-      File.open(tmp_file || required_source).read
+      code = File.open(tmp_file || required_source).read
       File.delete(tmp_file) if tmp_file
+      code
     end
     
     def publish(attributes, code)
