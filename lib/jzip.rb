@@ -2,7 +2,7 @@
 class String
   
   def jzip_require_statement?
-    self.strip.match(Jzip::Plugin::REG_EXPS[:require_statement])
+    !!self.strip.match(Jzip::Plugin::REG_EXPS[:require_statement])
   end
   
   def required_jzip_source(exclude_exclamation_mark = true)
@@ -109,7 +109,7 @@ module Jzip
     end
     
     def requires_parsing?(attributes)
-      return true unless File.exists?(attributes[:target_file])
+      return true if !File.exists?(attributes[:target_file]) or (@initial_compile and options[:minify])
 
       latest_modification_time = File.mtime(attributes[:target_file])
       ([attributes[:template]] + attributes[:requirements]).any?{|x| File.mtime(x) > latest_modification_time}

@@ -36,7 +36,7 @@ The following specifies to merge the default Javascripts with three custom Javas
 //= require builder/module
 //= require builder/model_browser
 
-Jzip has some options that you can configure in the environment.rb file.
+Further more, Jzip has some options that you can configure in the environment.rb file.
 
 :template_location - Specifies the location of the Jzip templates. You can pass a string, an array of strings or hash
                      (default: "assets/jzip")
@@ -52,6 +52,7 @@ Jzip has some options that you can configure in the environment.rb file.
                      (default: true when not in production environment)
 
 You can specify a Jzip option by putting the following in your environment.rb:
+
 Jzip::Plugin.options[:always_update] = true
 Jzip::Plugin.options[:minify]        = false
 
