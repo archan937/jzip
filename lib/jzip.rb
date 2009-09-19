@@ -83,12 +83,20 @@ module Jzip
     end
     
     def requirements(template, required_source)
-      defaults = %w(prototype effects dragdrop controls)
-      defaults << "application" if File.exists?(File.join(RAILS_ROOT, "public", "javascripts", "application.js"))
+      reserved = {"defaults" => %w(prototype effects dragdrop controls application)}
+      basename = File.basename(required_source)
+      dirname  = File.dirname(required_source)
+
+      source_dirname = required_source.match(/^\//) ?
+                         File.join(RAILS_ROOT, "public", "javascripts") :
+                         File.dirname(template)
       
-      required_source == "defaults" ?
-        defaults.collect{|x| File.join(RAILS_ROOT, "public", "javascripts", "#{x}.js")} :
-        [File.join(File.dirname(template), "#{required_source}.js")]
+      sources = reserved.include?(basename) ?
+                  reserved[basename].collect{|x| File.join(dirname, x)}.
+                                     select {|x| File.exists?(File.join(source_dirname, "#{x}.js"))} :
+                  [required_source]
+                  
+      sources.collect{|x| File.join(source_dirname, "#{x}.js")}
     end
     
     def parse(attributes)

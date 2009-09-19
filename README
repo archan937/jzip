@@ -13,7 +13,7 @@ AssetPackager almost suited the solution, but I wanted more flexibility in confi
    ./script/plugin install git://github.com/archan937/jzip.git 
 
 2. Create your .jz and .js files in the assets/jzip directory
-   (a Jzip template for the Prototype library and application.js is already available)
+   (a Jzip template for the Prototype and Scriptaculous sources along with application.js is already available)
 
 3. Include the generated Javascript file in your template (e.g. for the defaults)
    <%= javascript_include_tag "defaults" %>
@@ -23,16 +23,17 @@ AssetPackager almost suited the solution, but I wanted more flexibility in confi
 == Documentation
 
 A .jz file (Jzip template) is nothing more than a common .js file in which you can require other JS files for merging.
-You can do this by simply adding the following: //= require < path_to_file >
-The path of the Javascript file has to be relative to the Jzip template. Other than the path to a Javascript file, you can also use "defaults" for the Prototype files and application.js which are shipped with a Rails application.
+You can do this by simply adding the following: //= require < path_to_file or predefined_set >
+The path of the Javascript file has to be relative to the Jzip template. Please note that specifying a preleading '/' in the path will be interpreted by Jzip as 'RAILS_ROOT/public/javascripts' (which is very handy).
+Other than the path to a Javascript file, you can also refer to a predefined set of Javascripts sources. At the moment, only "defaults" is available for the Prototype and Scriptaculous libs and application.js which are shipped with a Rails application. Any suggestions for other predefined sets are welcome.
 And last but not least, you can overrule the minification of a required source by adding an exclamation mark before the path (or before "defaults").
 
-The following specifies to merge the default Javascripts with three custom Javascript files into public/javascripts/foo.js and overrule the minification of shared/topup at all times:
+The following instructs Jzip to merge the Prototype and Scriptaculous libraries with three custom Javascript files into public/javascripts/foo.js and overrule the minification of shared/topup at all times:
 
-(assets/jzip/foo.jz)
+(in assets/jzip/foo.jz)
 
 //= require !shared/top_up
-//= require defaults
+//= require /defaults
 //= require builder/module
 //= require builder/model_browser
 
