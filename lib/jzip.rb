@@ -38,14 +38,17 @@ module Jzip
     TMP_DIR  = File.join(RAILS_ROOT, "tmp", "jzip")
     
     @options = {
-      :template_location => File.join(RAILS_ROOT, "assets", "jzip"),
-      :minify            => RAILS_ENV == "production",
-      :always_update     => RAILS_ENV != "production"
+      :minify        => RAILS_ENV == "production",
+      :always_update => RAILS_ENV != "production"
     }
     attr_reader :options
     
     def options=(value)
       @options.merge!(value)
+    end
+    
+    def add_template_location(location)
+      @template_locations << location
     end
     
     def compile_javascript_files
@@ -56,14 +59,16 @@ module Jzip
     
   private
     
-    @initial_compile = true
+    @template_locations = [File.join(RAILS_ROOT, "assets", "jzip")]
+    @initial_compile    = true
     
     def template_refs
-      template_location = options[:template_location]
       Hash[
-        *(template_location.is_a?(Hash) ? template_location.to_a : [template_location].flatten).collect do |location|
-          ref = [location].flatten
-          [ref.shift, ref.shift || File.join(RAILS_ROOT, "public", "javascripts")]
+        *@template_locations.collect do |location|
+          (location.is_a?(Hash) ? location.to_a : [location].flatten).collect do |x|
+            ref = [x].flatten
+            [ref.shift, ref.shift || File.join(RAILS_ROOT, "public", "javascripts")]
+          end
         end.flatten
       ]
     end

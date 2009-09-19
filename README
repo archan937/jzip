@@ -25,37 +25,44 @@ AssetPackager almost suited the solution, but I wanted more flexibility in confi
 A .jz file (Jzip template) is nothing more than a common .js file in which you can require other JS files for merging.
 You can do this by simply adding the following: //= require < path_to_file or predefined_set >
 The path of the Javascript file has to be relative to the Jzip template. Please note that specifying a preleading '/' in the path will be interpreted by Jzip as 'RAILS_ROOT/public/javascripts' (which is very handy).
+
 Other than the path to a Javascript file, you can also refer to a predefined set of Javascripts sources. At the moment, only "defaults" is available for the Prototype and Scriptaculous libs and application.js which are shipped with a Rails application. Any suggestions for other predefined sets are welcome.
 And last but not least, you can overrule the minification of a required source by adding an exclamation mark before the path (or before "defaults").
 
 The following instructs Jzip to merge the Prototype and Scriptaculous libraries with three custom Javascript files into public/javascripts/foo.js and overrule the minification of shared/topup at all times:
 
-(in assets/jzip/foo.jz)
+  (in assets/jzip/foo.jz)
 
-//= require !shared/top_up
-//= require /defaults
-//= require builder/module
-//= require builder/model_browser
+  //= require !shared/top_up
+  //= require /defaults
+  //= require builder/module
+  //= require builder/model_browser
 
-Further more, Jzip has some options that you can configure in the environment.rb file.
+You probably already have guessed that the default location for Jzip templates is 'RAILS_ROOT/assets/jzip'. I can imagine that you would have choosen another location. So fortunately, the Jzip plugin offers you to that piece of freedom. All you have to do is put the following in your environment.rb file: 
 
-:template_location - Specifies the location of the Jzip templates. You can pass a string, an array of strings or hash
-                     (default: "assets/jzip")
-                     e.g. string: RAILS_ROOT + "/lib/jzip" 
-                                  => target directory will be "public/javascripts"
-                          array:  [RAILS_ROOT + "/assets/jzip", RAILS_ROOT + "/vendor/plugins/foo/assets/jzip"]
-                                  => target directory will be "public/javascripts"
-                          hash:   {RAILS_ROOT + "/assets/jzip/betty" => RAILS_ROOT + "/public/javascripts/betty"}
-                                  => target directory will be "public/javascripts/betty"
-:minify            - Minify the merged Javascript file using the JSMin library
-                     (default: true when in production environment)
-:always_update     - Merge (and minify when specified) the Jzip templates on every page request (only when outdated!)
-                     (default: true when not in production environment)
+  Jzip::Plugin.add_template_location(< your_own_template_location(s) >)
+
+This comes in very handy when building a Rails plugin that uses Jzip because you don't want to copy your all Jzip templates to 'RAILS_ROOT/assets/jzip'. So let's say your plugin is called 'betty', all you have to do is put the following in it's init.rb file: Jzip::Plugin.add_template_location(RAILS_ROOT + "vendor/plugins/betty/assets/jzip"). Now isn't that a piece cake?
+Not only can you pass a string containing the template location, you can also pass an array of strings (containing multiple locations) or a hash (which also specifies the output directory):
+
+  string: RAILS_ROOT + "/lib/jzip" 
+          => target directory will be "public/javascripts"
+  array:  [RAILS_ROOT + "/some/path/jzip", RAILS_ROOT + "/vendor/plugins/foo/assets/jzip"]
+          => target directory will be "public/javascripts"
+  hash:   {RAILS_ROOT + "/vendor/plugins/betty/assets/jzip" => RAILS_ROOT + "/public/javascripts/betty"}
+          => target directory will be "public/javascripts/betty"
+
+Finally, Jzip has some options that you can configure in the environment.rb file.
+
+  :minify            - Minify the merged Javascript file using the JSMin library
+                       (default: true when in production environment)
+  :always_update     - Merge (and minify when specified) the Jzip templates on every page request (only when outdated!)
+                       (default: true when not in production environment)
 
 You can specify a Jzip option by putting the following in your environment.rb:
 
-Jzip::Plugin.options[:always_update] = true
-Jzip::Plugin.options[:minify]        = false
+  Jzip::Plugin.options[:always_update] = true
+  Jzip::Plugin.options[:minify]        = false
 
 For support, remarks and requests please mail me at paul.engel@holder.nl.
 
