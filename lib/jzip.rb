@@ -1,36 +1,5 @@
 
-class String
-  
-  def jzip_require_statement?
-    !!self.strip.match(Jzip::Plugin::REG_EXPS[:require_statement])
-  end
-  
-  def required_jzip_source(exclude_exclamation_mark = true)
-    self.strip.gsub(Regexp.new([Jzip::Plugin::REG_EXPS[:require_statement].source, ("\!?" if exclude_exclamation_mark)].compact.join), "").strip if self.jzip_require_statement?
-  end
-  
-  def overrule_jzip_minification?
-    !!required_jzip_source(false).match(/^!/) if self.jzip_require_statement?
-  end
-  
-end
-
 module Jzip
-  module Controller
-    def self.included(base)
-      base.class_eval do
-        include InstanceMethods
-        before_filter :compile_javascript_files
-      end
-    end
-
-    module InstanceMethods
-      def compile_javascript_files
-        Jzip::Plugin.compile_javascript_files
-      end
-    end
-  end
-
   module Plugin
     extend self
     
@@ -43,8 +12,12 @@ module Jzip
     }
     attr_reader :options
     
+    def init
+      FileUtils.mkdir_p TMP_DIR
+    end
+    
     def options=(value)
-      @options.merge!(value)
+      @options.merge! value
     end
     
     def add_template_location(location)
@@ -53,8 +26,15 @@ module Jzip
     
     def compile_javascript_files
       return unless @options[:always_update] or @initial_compile
+      
+      notify "Compiling templates..."
       template_refs.each{|source, target| parse_templates(source, target)}
       @initial_compile = false
+      notify "Done"
+    end
+    
+    def notify(message)
+      RAILS_DEFAULT_LOGGER.info "== JZIP: #{message}"
     end
     
   private
@@ -105,8 +85,11 @@ module Jzip
     end
     
     def parse(attributes)
-      return unless requires_parsing?(attributes)
-      notify("Parsing template '#{attributes[:template]}'")
+      unless requires_parsing?(attributes)
+        notify "Skipping '#{attributes[:template]}'"
+        return
+      end
+      notify "Parsing '#{attributes[:template]}'"
       
       code = File.open(attributes[:template]).readlines.collect do |line|
         if line.jzip_require_statement?
@@ -131,7 +114,7 @@ module Jzip
     def require_code(attributes, required_source, overrule_minification)
       if options[:minify]
         if overrule_minification
-          notify("Overruling minification of '#{required_source}'")
+          notify "Overruling minification of '#{required_source}'"
         else
           tmp_file = File.join(TMP_DIR, attributes[:file_name])
           `ruby #{File.join(File.dirname(__FILE__), "support", "jsmin.rb")} <#{required_source} >#{tmp_file}`
@@ -148,10 +131,6 @@ module Jzip
       File.open(attributes[:target_file], "w") do |f|
         f.write(code)
       end
-    end
-    
-    def notify(message)
-      puts "== JZIP: #{message}"
     end
   end  
 end

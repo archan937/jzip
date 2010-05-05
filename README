@@ -23,11 +23,13 @@ AssetPackager almost suited the solution, but I wanted more flexibility in confi
 == Documentation
 
 A .jz file (Jzip template) is nothing more than a common .js file in which you can require other JS files for merging.
-You can do this by simply adding the following: //= require < path_to_file or predefined_set >
-The path of the Javascript file has to be relative to the Jzip template. Please note that specifying a preleading '/' in the path will be interpreted by Jzip as 'RAILS_ROOT/public/javascripts' (which is very handy).
+You can do this by simply adding the following:
 
+  //= require < path_to_file or predefined_set >
+
+The path of the Javascript file has to be relative to the Jzip template. Please note that specifying a preleading '/' in the path will be interpreted by Jzip as 'RAILS_ROOT/public/javascripts' (which is very handy).
 Other than the path to a Javascript file, you can also refer to a predefined set of Javascripts sources. At the moment, only "defaults" is available for the Prototype and Scriptaculous libs and application.js which are shipped with a Rails application. Any suggestions for other predefined sets are welcome.
-And last but not least, you can overrule the minification of a required source by adding an exclamation mark before the path (or before "defaults").
+Further more, you can overrule the minification of a required source by adding an exclamation mark before the path (or before the predefined set).
 
 The following instructs Jzip to merge the Prototype and Scriptaculous libraries with three custom Javascript files into public/javascripts/foo.js and overrule the minification of shared/topup at all times:
 

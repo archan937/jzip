@@ -1,3 +1,1 @@
-# Include hook code here
-ActionController::Base.send(:include, Jzip::Controller)
-FileUtils.mkdir_p(Jzip::Plugin::TMP_DIR)
+require File.join(File.dirname(__FILE__), "rails", "init")
