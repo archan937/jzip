@@ -23,7 +23,7 @@ module Jzip
         @file_name   = File.basename(self.template, ".jz") + ".js"
         @target_dir  = File.dirname File.join(self.target, self.template.gsub(self.source, ""))
         if partial?
-          @target_dir.gsub! RAILS_ROOT, Jzip::Engine::TMP_DIR
+          @target_dir.gsub! RAILS_ROOT, TMP_DIR
         end
         @target_file = File.join @target_dir, @file_name
         
