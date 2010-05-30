@@ -82,7 +82,7 @@ Also, this plugin makes use of the Ruby JavaScript Minifier created by Douglas C
 http://www.crockford.com/javascript/jsmin.html
 
 == License
-Copyright (c) 2009 Paul Engel, released under the MIT license
+Copyright (c) 2010 Paul Engel, released under the MIT license
 http://holder.nl - http://gettopup.com - paul.engel@holder.nl
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
