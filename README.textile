@@ -42,6 +42,8 @@ Install the Jzip plugin:
   ./script/plugin install git://github.com/archan937/jzip.git 
 </pre>
 
+*Note*: a Jzip template (@assets/jzip/defaults.jz@) for the Prototype and Scriptaculous sources along with application.js will be created
+
 h2. Usage
 
 h3. Including generated Javascript files
