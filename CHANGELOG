@@ -1,5 +1,9 @@
 = Jzip CHANGELOG
 
+== Version 1.0.1 (June 5, 2010)
+
+* Altered the ActionController::Base hook a bit
+
 == Version 1.0.0 (May 31, 2010)
 
 * Refactored the entire code base (cleaned up the module and file structure and separated functionality)

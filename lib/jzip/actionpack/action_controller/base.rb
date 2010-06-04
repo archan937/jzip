@@ -1,6 +1,5 @@
 
 unless defined?(Jzip::CONTROLLER_HOOKED)
-  Jzip::CONTROLLER_HOOKED = true
   
   module ActionController
   
@@ -13,4 +12,7 @@ unless defined?(Jzip::CONTROLLER_HOOKED)
     end
   
   end
+  
+  Jzip::CONTROLLER_HOOKED = true
+  
 end

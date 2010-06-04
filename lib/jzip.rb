@@ -5,4 +5,4 @@ module Jzip
 end
 
 require "jzip/core"
-require "jzip/action_controller/base"
+require "jzip/actionpack"

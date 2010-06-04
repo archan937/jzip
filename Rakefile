@@ -1,9 +1,9 @@
-require 'rake'
-require 'rake/testtask'
-require 'rake/rdoctask'
+require "rake"
+require "rake/testtask"
+require "rake/rdoctask"
 
 begin
-  require 'jeweler'
+  require "jeweler"
   Jeweler::Tasks.new do |gemspec|
     gemspec.name        = "Jzip"
     gemspec.summary     = "Javascript merging and compression for Rails Apps"
@@ -18,20 +18,20 @@ rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
 end
 
-desc 'Test the jzip plugin.'
+desc "Test the jzip plugin."
 Rake::TestTask.new(:test) do |t|
-  t.libs << 'lib'
-  t.libs << 'test'
-  t.pattern = 'test/**/*_test.rb'
+  t.libs   << "lib"
+  t.libs   << "test"
+  t.pattern = "test/**/*_test.rb"
   t.verbose = true
 end
 
-desc 'Generate documentation for the jzip plugin.'
+desc "Generate documentation for the jzip plugin."
 Rake::RDocTask.new(:rdoc) do |rdoc|
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.title    = 'Jzip'
-  rdoc.options << '--line-numbers' << '--inline-source'
-  rdoc.rdoc_files.include('README')
-  rdoc.rdoc_files.include('MIT-LICENSE')
-  rdoc.rdoc_files.include('lib/**/*.rb')
+  rdoc.rdoc_dir = "rdoc"
+  rdoc.title    = "Jzip"
+  rdoc.options << "--line-numbers" << "--inline-source"
+  rdoc.rdoc_files.include "README"
+  rdoc.rdoc_files.include "MIT-LICENSE"
+  rdoc.rdoc_files.include "lib/**/*.rb"
 end
