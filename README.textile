@@ -75,6 +75,8 @@ The following instructs Jzip to merge the Prototype and Scriptaculous libraries 
   //= require builder/model_browser
 </pre>
 
+h3. Registering template locations
+
 You probably already have guessed that the default location for Jzip templates is @RAILS_ROOT/assets/jzip@. I can imagine that you would have choosen another location. So fortunately, the Jzip engine offers you to that piece of freedom. All you have to do is put the following in your @environment.rb@ file: 
 
 <pre>
@@ -107,6 +109,8 @@ Now isn't that a piece cake? Not only can you pass a @string@ containing the tem
   {RAILS_ROOT + "/vendor/plugins/betty/assets/jzip" => RAILS_ROOT + "/public/javascripts/betty"}
 </pre>
 
+h3. Compile options
+
 Finally, Jzip has some options that you can configure in the @environment.rb@ file:
 
 * @:minify@        - Minify the merged Javascript file using the JSMin library (default: true when in production environment)
@@ -118,6 +122,8 @@ You can specify a Jzip option by putting the following in your @environment.rb@ 
   Jzip::Engine.options[:always_update] = true
   Jzip::Engine.options[:minify]        = false
 </pre>
+
+h2. Contact me
 
 For support, remarks and requests please mail me at "paul.engel@holder.nl":mailto:paul.engel@holder.nl.
 
