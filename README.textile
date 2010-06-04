@@ -1,15 +1,11 @@
 
 h1. Jzip
 
-Javascript merging and compression for Rails Apps
+A Rails gem (and also plugin) for Javascript merging and compression within Rails Apps
 
 h2. Introduction
 
-Jzip was created due to the need of simply merging and minifying Javascript files to reduce HTTP requests and file size of my assets.
-Using sprites for images and SASS for stylesheets only left javascripts not be optimized.
-AssetPackager almost suited the solution, but I wanted more flexibility in configuration.
-So I got inspired by AssetPackager and SASS to come up with the Jzip.
-At first Jzip was a plugin only, but after refactoring the entire code base Jzip is available as a gem hosted on gemcutter.
+Jzip was created due to the need of simply merging and minifying Javascript files to reduce HTTP requests and file size of my assets. Using sprites for images and SASS for stylesheets only left javascripts not be optimized. AssetPackager almost suited the solution, but I wanted more flexibility in configuration. So I got inspired by AssetPackager and SASS to come up with the Jzip. At first Jzip was a plugin only, but after refactoring the entire code base Jzip is available as a gem hosted on gemcutter.
 
 h2. Installation
 
@@ -58,24 +54,20 @@ Just use the @javascript_include_tag@ helper method (e.g. for the @defaults.jz@ 
 
 h3. Creating Jzip templates / partials
 
-A @.jz@ file (Jzip template or partial) is nothing more than a common .js file in which you can require other files for merging.
-You can do this by simply adding the following:
+A @.jz@ file (Jzip template or partial) is nothing more than a common .js file in which you can require other files for merging. You can do this by simply adding the following:
 
 <pre>
   //= require < path_to_file or path_to_template or path_to_partial or predefined_set >
 </pre>
 
-Just like in Rails views and in SASS, Jzip has partials of which the output file will not be created in the target directory.
-The path to the Javascript file or Jzip template or partial has to be relative to the Jzip template / partial itself.
-Please note that specifying a preleading @/@ in the path will be interpreted by Jzip as @RAILS_ROOT/public/javascripts@ (which is very handy).
-Other than the path to a Javascript file, you can also refer to a predefined set of Javascripts sources.
-At the moment, only @defaults@ is available for the Prototype and Scriptaculous libs and application.js which are shipped with a Rails application.
-Any suggestions for other predefined sets are welcome.
-Further more, you can overrule the minification of a required source by adding an exclamation mark before the path (or before the predefined set).
+Just like in Rails views and in SASS, Jzip has partials of which the output file will not be created in the target directory. The path to the Javascript file or Jzip template or partial has to be relative to the Jzip template / partial itself. Please note that specifying a preleading @/@ in the path will be interpreted by Jzip as @RAILS_ROOT/public/javascripts@ (which is very handy).
+
+Other than the path to a Javascript file, you can also refer to a predefined set of Javascripts sources. At the moment, only @defaults@ is available for the Prototype and Scriptaculous libs and application.js which are shipped with a Rails application. Any suggestions for other predefined sets are welcome. Further more, you can overrule the minification of a required source by adding an exclamation mark before the path (or before the predefined set).
 
 The following instructs Jzip to merge the Prototype and Scriptaculous libraries with three custom Javascript files into @public/javascripts/foo.js@ and overrule the minification of @shared/topup@ at all times:
 
 *Note*: template is located in @assets/jzip/foo.jz@
+
 <pre>
   //= require !shared/top_up
   //= require /defaults
@@ -83,17 +75,13 @@ The following instructs Jzip to merge the Prototype and Scriptaculous libraries 
   //= require builder/model_browser
 </pre>
 
-You probably already have guessed that the default location for Jzip templates is @RAILS_ROOT/assets/jzip@.
-I can imagine that you would have choosen another location.
-So fortunately, the Jzip engine offers you to that piece of freedom.
-All you have to do is put the following in your @environment.rb@ file: 
+You probably already have guessed that the default location for Jzip templates is @RAILS_ROOT/assets/jzip@. I can imagine that you would have choosen another location. So fortunately, the Jzip engine offers you to that piece of freedom. All you have to do is put the following in your @environment.rb@ file: 
 
 <pre>
   Jzip::Engine.add_template_location(< your_own_template_location(s) >)
 </pre>
 
-This comes in very handy when building a Rails plugin that uses Jzip because you don't want to copy your all Jzip templates to @RAILS_ROOT/assets/jzip@.
-So let's say your plugin is called @betty@, all you have to do is put the following in it's @init.rb@ file:
+This comes in very handy when building a Rails plugin that uses Jzip because you don't want to copy your all Jzip templates to @RAILS_ROOT/assets/jzip@. So let's say your plugin is called @betty@, all you have to do is put the following in it's @init.rb@ file:
 
 <pre>
   Jzip::Engine.add_template_location(RAILS_ROOT + "vendor/plugins/betty/assets/jzip")
@@ -102,16 +90,19 @@ So let's say your plugin is called @betty@, all you have to do is put the follow
 Now isn't that a piece cake? Not only can you pass a @string@ containing the template location, you can also pass an @array of strings@ (containing multiple locations) or a @hash@ (which also specifies the output directory):
 
 @string@ (target directory will be @public/javascripts@)
+
 <pre>
   RAILS_ROOT + "/lib/jzip
 </pre>
 
 @array@ (target directory will be @public/javascripts@)
+
 <pre>
   [RAILS_ROOT + "/some/path/jzip", RAILS_ROOT + "/vendor/plugins/foo/assets/jzip"]
 </pre>
 
 @hash@ (target directory is @public/javascripts/betty@)
+
 <pre>
   {RAILS_ROOT + "/vendor/plugins/betty/assets/jzip" => RAILS_ROOT + "/public/javascripts/betty"}
 </pre>
@@ -149,15 +140,8 @@ Copyright (c) 2010 Paul Engel, released under the MIT license
 
 "http://holder.nl":http://holder.nl - "http://gettopup.com":http://gettopup.com - "paul.engel@holder.nl":mailto:paul.engel@holder.nl
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
-documentation files (the "Software"), to deal in the Software without restriction, including without limitation the 
-rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit 
-persons to whom the Software is furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the 
-Software.
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
-WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR 
-COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
-OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
