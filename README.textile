@@ -82,30 +82,30 @@ h3. Registering template locations
 You probably already have guessed that the default location for Jzip templates is @RAILS_ROOT/assets/jzip@. I can imagine that you would have choosen another location. So fortunately, the Jzip engine offers you to that piece of freedom. All you have to do is put the following in your @environment.rb@ file: 
 
 <pre>
-  Jzip::Engine.add_template_location(< your_own_template_location(s) >)
+  Jzip::Engine.add_template_location < your_own_template_location(s) >
 </pre>
 
 This comes in very handy when building a Rails plugin that uses Jzip because you don't want to copy your all Jzip templates to @RAILS_ROOT/assets/jzip@. So let's say your plugin is called @betty@, all you have to do is put the following in it's @init.rb@ file:
 
 <pre>
-  Jzip::Engine.add_template_location(RAILS_ROOT + "vendor/plugins/betty/assets/jzip")
+  Jzip::Engine.add_template_location RAILS_ROOT + "vendor/plugins/betty/assets/jzip"
 </pre>
 
 Now isn't that a piece cake? Not only can you pass a @string@ containing the template location, you can also pass an @array of strings@ (containing multiple locations) or a @hash@ (which also specifies the output directory):
 
-@string@ (target directory will be @public/javascripts@)
+@string@ - target directory will be @public/javascripts@
 
 <pre>
   RAILS_ROOT + "/lib/jzip
 </pre>
 
-@array@ (target directory will be @public/javascripts@)
+@array@ - target directory will be @public/javascripts@
 
 <pre>
   [RAILS_ROOT + "/some/path/jzip", RAILS_ROOT + "/vendor/plugins/foo/assets/jzip"]
 </pre>
 
-@hash@ (target directory is @public/javascripts/betty@)
+@hash@ - target directory will be @public/javascripts/betty@
 
 <pre>
   {RAILS_ROOT + "/vendor/plugins/betty/assets/jzip" => RAILS_ROOT + "/public/javascripts/betty"}
