@@ -1,5 +1,10 @@
 = Jzip CHANGELOG
 
+== Version 1.0.2 (June 8, 2010)
+
+* Being able to alter the root dir (default is RAILS_ROOT)
+* Running Jzip::Engine.init on initial compile
+
 == Version 1.0.1 (June 5, 2010)
 
 * Altered the ActionController::Base hook a bit

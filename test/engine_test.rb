@@ -3,9 +3,9 @@ require "test_helper"
 module Jzip
   module Test
 
-    class Engine < ActiveSupport::TestCase
+    class EngineTest < ActiveSupport::TestCase
       setup do
-        # do something
+        include Setup
       end
       
       test "something" do

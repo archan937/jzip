@@ -5,9 +5,15 @@ module Jzip
     module Core
       module String
 
-        class Analyzation < ActiveSupport::TestCase
+        class AnalyzationTest < ActiveSupport::TestCase
+          setup do
+            include Setup
+          end
+          
           test "jzip_require_statement?" do
-            assert_equal true, "// require \"defaults\"".jzip_require_statement?
+            assert_equal true , "//= require \"defaults\"".jzip_require_statement?
+            assert_equal false, "//  require \"defaults\"".jzip_require_statement?
+            assert_equal false, "#   require \"defaults\"".jzip_require_statement?
           end
       
           test "required_jzip_source" do

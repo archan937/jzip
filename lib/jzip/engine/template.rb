@@ -23,7 +23,7 @@ module Jzip
         @file_name   = File.basename(self.template, ".jz") + ".js"
         @target_dir  = File.dirname File.join(self.target, self.template.gsub(self.source, ""))
         if partial?
-          @target_dir.gsub! RAILS_ROOT, TMP_DIR
+          @target_dir.gsub! Engine.root_dir, Engine.tmp_dir
         end
         @target_file = File.join @target_dir, @file_name
         
@@ -83,7 +83,7 @@ module Jzip
         dirname  = File.dirname  required_source
         
         source_dirname = required_source.match(REG_EXPS[:default_javascripts]) ?
-                           File.join(RAILS_ROOT, "public", "javascripts") :
+                           File.join(Engine.root_dir, "public", "javascripts") :
                            File.dirname(self.template)
         sources        = begin
                            if PREDEFINED_SETS.include?(basename)
