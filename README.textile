@@ -94,14 +94,19 @@ This comes in very handy when building a Rails plugin that uses Jzip because you
 Now isn't that a piece cake? Not only can you pass a @string@ containing the template location, you can also pass an @array of strings@ (containing multiple locations) or a @hash@ (which also specifies the output directory):
 
 * @string@ - target directory will be @public/javascripts@
+
 <pre>
   RAILS_ROOT + "/lib/jzip
 </pre>
+
 * @array@ - target directory will be @public/javascripts@
+
 <pre>
   [RAILS_ROOT + "/some/path/jzip", RAILS_ROOT + "/vendor/plugins/foo/assets/jzip"]
 </pre>
+
 * @hash@ - target directory will be @public/javascripts/betty@
+
 <pre>
   {RAILS_ROOT + "/vendor/plugins/betty/assets/jzip" => RAILS_ROOT + "/public/javascripts/betty"}
 </pre>
