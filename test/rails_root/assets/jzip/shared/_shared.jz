@@ -1,0 +1,14 @@
+
+//= require native/log
+//= require native/extensions/string
+//= require native/extensions/array
+
+//= require /jquery/core
+//= require jquery/extensions/deparam
+
+//= require jquery/ajax_setup
+//= require jquery/class
+//= require jquery/seat_holder
+
+//= require code_heroes
+//= require code_heroes/ajaxify
