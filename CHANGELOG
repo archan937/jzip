@@ -1,5 +1,13 @@
 = Jzip CHANGELOG
 
+== Version 1.0.3 (June 10, 2010)
+
+* Corrected Template.derive_required_source(required_source)
+* Corrected Requirement.newer?
+* Tweaked the template output (regarding new lines)
+* Also notifying in the test environment
+* Added extra notifications
+
 == Version 1.0.2 (June 8, 2010)
 
 * Being able to alter the root dir (default is RAILS_ROOT)

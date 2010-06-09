@@ -7,7 +7,8 @@ module Jzip
       include Support::Notifier
       
       def newer?(mtime)
-        plain_javascript? ? File.mtime(self.file) > mtime : !template.outdated?(mtime)
+        notify "Newer     '#{target_file}'" if result = mtime < File.mtime(target_file)
+        result
       end
       
       def parse
@@ -33,6 +34,10 @@ module Jzip
       
       def template
         @template ||= Template.build(self.file, self.source, self.target) unless plain_javascript?
+      end
+      
+      def target_file
+        plain_javascript? ? self.file : template.target_file
       end
       
     end

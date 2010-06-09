@@ -32,15 +32,18 @@ module Jzip
       
       def parse
         unless requires_parsing?
-          notify "Skipping '#{self.template}'"
+          notify "Skipping  '#{self.template}'"
         else
-          notify "Parsing '#{self.template}'"
+          notify "Parsing   '#{self.template}'"
           
           @code = @segments.collect do |segment|
                     segment.is_a?(Requirement) ?
                       segment.code : 
                       segment.join("")
-                  end.join("\n").gsub(/(^\s+$){3,}/, "\n\n").gsub(/^\n+/, "\n") + "\n"
+                  end.
+                  join("\n\n").
+                  gsub(/^\s*$\n{2,}/, "\n").
+                  strip.insert(0, "\n").insert(-1, "\n")
       
           write_file
         end
@@ -51,9 +54,10 @@ module Jzip
         parse
       end
       
-      def outdated?(mtime = nil)
-        return true unless target_file?
-        File.mtime(@target_file) < (mtime || File.mtime(self.template))
+      def outdated?
+        return true if missing?
+        notify "Outdated  '#{self.template}'" if result = File.mtime(@target_file) < File.mtime(self.template)
+        result
       end
       
       def partial?
@@ -94,13 +98,19 @@ module Jzip
                          end
                          
         sources.collect do |x|
-          [File.join(source_dirname, "_#{x}.jz"),
-           File.join(source_dirname,  "#{x}.jz"),
-           File.join(source_dirname,  "#{x}.js")].detect{|x| File.exists?(x)}
+          source = File.join(source_dirname, x)
+          dir    = File.dirname  source
+          base   = File.basename source
+          
+          [File.join(dir, "_#{base}.jz"),
+           File.join(dir,  "#{base}.jz"),
+           File.join(dir,  "#{base}.js")].detect{|f| File.exists?(f)}
         end.compact
       end
       
       def write_file
+        notify "Writing   '#{@target_file}'"
+        
         FileUtils.mkdir_p @target_dir
         File.open(@target_file, "w") do |f|
           f.write @code
@@ -114,6 +124,11 @@ module Jzip
         
         @requirements.each{|x| x.parse}
         @requirements.any?{|x| x.newer? modification_time}
+      end
+      
+      def missing?
+        notify "Missing   '#{@target_file}'" if result = !target_file?
+        result
       end
       
       def target_file?

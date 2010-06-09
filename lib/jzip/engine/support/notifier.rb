@@ -5,7 +5,14 @@ module Jzip
       module Notifier
     
         def notify(message)
-          RAILS_DEFAULT_LOGGER.info "== JZIP: #{message}"
+          string = wrap(message)
+          RAILS_ENV == "test" ? puts(string) : RAILS_DEFAULT_LOGGER.info(string)
+        end
+        
+      private
+        
+        def wrap(message)
+          "== JZIP: #{message}"
         end
     
       end
