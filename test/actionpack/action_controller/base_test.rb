@@ -36,21 +36,21 @@ module Jzip
           end
         
           def prepare_directories(minify)
-            Jzip::Engine.options[:minify]   = minify
-            Jzip::Engine.options[:root_dir] = File.expand_path(File.join(test_dir, "rails_root", compression))
+            Jzip::Engine.options[:minify] = minify
+            Jzip::Engine.root_dir         = File.expand_path(File.join(test_dir, "rails_root", compression))
             
-            FileUtils.rm_r File.join(Jzip::Engine.options[:root_dir], "assets", "jzip"       , "."), :force => true
-            FileUtils.rm_r File.join(Jzip::Engine.options[:root_dir], "public", "javascripts", "."), :force => true
-            FileUtils.rm_r File.join(Jzip::Engine.options[:root_dir], "tmp"                       ), :force => true
+            FileUtils.rm_r File.join(Jzip::Engine.root_dir, "assets", "jzip"       , "."), :force => true
+            FileUtils.rm_r File.join(Jzip::Engine.root_dir, "public", "javascripts", "."), :force => true
+            FileUtils.rm_r File.join(Jzip::Engine.root_dir, "tmp"                       ), :force => true
 
-            FileUtils.cp_r File.join(test_dir, "javascripts", "assets", "jzip", "."), File.join(Jzip::Engine.options[:root_dir], "assets", "jzip"       )
-            FileUtils.cp_r File.join(test_dir, "javascripts", "before"        , "."), File.join(Jzip::Engine.options[:root_dir], "public", "javascripts")
+            FileUtils.cp_r File.join(test_dir, "javascripts", "assets", "jzip", "."), File.join(Jzip::Engine.root_dir, "assets", "jzip"       )
+            FileUtils.cp_r File.join(test_dir, "javascripts", "before"        , "."), File.join(Jzip::Engine.root_dir, "public", "javascripts")
           end
           
           def output_equals_comparison?
             Dir.glob(File.join(comparison_dir, "**", "*.js")).all? do |javascript|
               relative_path = Pathname.new(File.expand_path(javascript)).relative_path_from(Pathname.new(File.expand_path(comparison_dir)))
-              File.read(javascript) == File.read(File.join(Jzip::Engine.options[:root_dir], relative_path)) rescue false
+              File.read(javascript) == File.read(File.join(Jzip::Engine.root_dir, relative_path)) rescue false
             end
           end
         
