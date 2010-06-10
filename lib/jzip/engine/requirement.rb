@@ -14,7 +14,7 @@ module Jzip
       def parse
         @code ||= begin
                     source_file = plain_javascript? ? self.file : (template.parse; template.target_file)
-                    File.open(minify? ? Support::Minifier.parse(source_file) : source_file).read
+                    File.read(minify? ? Support::Minifier.parse(source_file) : source_file)
                   end
       end
       

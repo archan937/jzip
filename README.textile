@@ -144,8 +144,8 @@ Also, the Jzip engine makes use of the Ruby JavaScript Minifier created by Dougl
 
 h2. ToDo's
 
-* Populate @test/javascripts/after/compressed@ and @test/javascripts/after/uncompressed@ which contain comparison material for the output of the compilation tests
-* Compare output of the compilation tests with the excepted output within @test/javascripts/after@
+* Populate @test/javascripts/after/compressed@ which contain comparison material for the output of the compressed compilation test
+* Implement correct determination whether or not to minify code during compilation
 
 h2. License
 

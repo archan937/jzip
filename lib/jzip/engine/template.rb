@@ -47,7 +47,7 @@ module Jzip
       
           write_file
         end
-        @code ||= File.open(@target_file).read
+        @code ||= File.read(@target_file)
       end
       
       def code
@@ -68,7 +68,7 @@ module Jzip
       
       def scan_template
         @requirements = []
-        @segments     = File.open(self.template).readlines.inject([]) do |segments, line|
+        @segments     = File.readlines(self.template).inject([]) do |segments, line|
                           if line.jzip_require_statement?
                             derive_required_source(line.required_jzip_source).each do |file|
                               @requirements << Requirement.new(file, self.source, self.target, line.overrule_jzip_minification?)

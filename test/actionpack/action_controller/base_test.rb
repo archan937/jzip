@@ -20,22 +20,22 @@ module Jzip
           end
           
           def test_compressed_javascript_compilation
-            prepare_directories(true)
-            get :index
-            assert_equal_outcome
+            test_compilation true
           end
           
           def test_uncompressed_javascript_compilation
-            prepare_directories
-            get :index
-            assert_equal_outcome
+            test_compilation false
           end
           
         private
         
-          def prepare_directories(minify = false)
-            test_dir = File.join(File.dirname(__FILE__), "..", "..")
-            
+          def test_compilation(minify)
+            prepare_directories(minify)
+            get :index
+            assert_equal output_equals_comparison?, true
+          end
+        
+          def prepare_directories(minify)
             Jzip::Engine.options[:minify]   = minify
             Jzip::Engine.options[:root_dir] = File.expand_path(File.join(test_dir, "rails_root", compression))
             
@@ -47,12 +47,23 @@ module Jzip
             FileUtils.cp_r File.join(test_dir, "javascripts", "before"        , "."), File.join(Jzip::Engine.options[:root_dir], "public", "javascripts")
           end
           
-          def compression
-            [("un" unless Jzip::Engine.options[:minify]), "compressed"].compact.join ""
+          def output_equals_comparison?
+            Dir.glob(File.join(comparison_dir, "**", "*.js")).all? do |javascript|
+              relative_path = Pathname.new(File.expand_path(javascript)).relative_path_from(Pathname.new(File.expand_path(comparison_dir)))
+              File.read(javascript) == File.read(File.join(Jzip::Engine.options[:root_dir], relative_path)) rescue false
+            end
+          end
+        
+          def test_dir
+            File.join(File.dirname(__FILE__), "..", "..")
+          end
+
+          def comparison_dir
+            File.join(test_dir, "javascripts", "after", compression)
           end
           
-          def assert_equal_outcome
-            true
+          def compression
+            [("un" unless Jzip::Engine.options[:minify]), "compressed"].compact.join ""
           end
           
         end
