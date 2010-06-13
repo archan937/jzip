@@ -1,16 +1,29 @@
+
 module Jzip
   module Assets
+    include Support::Notifier
+
     extend self
     
-    def install
-      puts "Installing 'defaults' Jzip template..."
+    def install_defaults
+      create_default_template_location
 
-      FileUtils.mkdir_p(template_dir = File.join(RAILS_ROOT, "assets", "jzip"))
       File.open(File.join(template_dir, "defaults.jz"), "w") do |f|
         f.write("\n//= require /defaults\n") 
       end
 
-      puts "Done"
+      notify "Done"
+    end
+    
+  private
+  
+    def create_default_template_location
+      notify "Creating default template location..."
+      FileUtils.mkdir_p default_template_location
+    end
+    
+    def default_template_location
+      File.join Jzip::Engine.root_dir, "assets", "jzip"
     end
     
   end
