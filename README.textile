@@ -123,6 +123,13 @@ You can specify a Jzip option by putting the following in your @environment.rb@ 
   Jzip::Engine.options[:always_update] = true
 </pre>
 
+h3. In the Rails console
+
+You can run the following commands in the Rails console (with @./script/console@):
+
+* @Jzip::Assets.install_defaults@ - which installs @assets/jzip/defaults.jz@ (see "Using Jzip as plugin" for more information)
+* @Jzip::Engine.compile_javascript_files@ - which instructs Jzip to compile the Javascript files (this is automatically called at every request)
+
 h2. Contact me
 
 For support, remarks and requests please mail me at "paul.engel@holder.nl":mailto:paul.engel@holder.nl.
