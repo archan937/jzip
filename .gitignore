@@ -1,3 +1,4 @@
 .DS_Store
+pkg/*
 test/rails_root/public/javascripts/*
 test/rails_root/tmp/*
