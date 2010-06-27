@@ -6,6 +6,10 @@ var scriptElement = (function deriveScriptElement() {
 
   var dummyScript = document.getElementById(id);
   var element = dummyScript.previousSibling;
+  
+  while (element && element.tagName.toLowerCase() != "script") {
+    element = element.previousSibling;
+  }
 
   dummyScript.parentNode.removeChild(dummyScript);
   return element;

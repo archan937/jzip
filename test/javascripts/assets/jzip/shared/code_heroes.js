@@ -1,7 +1,7 @@
 
 CodeHeroes = (function() {
   var initModules = function() {
-    $.each($.modules(Stirrr), function(i, module) {
+    $.each($.modules(CodeHeroes), function(i, module) {
       initSubModules(module);
     });
   };

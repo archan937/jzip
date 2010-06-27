@@ -197,6 +197,42 @@ f.top,left:d.left-f.left}},offsetParent:function(){return this.map(function(){fo
 e&&e.document?e.document.compatMode==="CSS1Compat"&&e.document.documentElement["client"+b]||e.document.body["client"+b]:e.nodeType===9?Math.max(e.documentElement["client"+b],e.body["scroll"+b],e.documentElement["scroll"+b],e.body["offset"+b],e.documentElement["offset"+b]):f===w?c.css(e,d):this.css(d,typeof f==="string"?f:f+"px")}});A.jQuery=A.$=c})(window);
 }
 
+$.extend({
+  modules: function(object) {
+    var array = [];
+    $.each(object, function(property, names_only) {
+      if (property.match(/^[ABCDEFGHIJKLMNOPQRSTUVWXYZ][abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ]+$/)) {
+        array.push(names_only === true ? property : object[property]);
+      }
+    });
+    return array;
+  }
+});
+
+$.fn.extend({
+  serializeHash: function() {
+    var hash = {};
+    $.each(this.serializeArray(), function() {
+      if(hash[this.name] === undefined) {
+        hash[this.name] = this.value;
+      }
+      else {
+        if ($.isArray(hash[this.name])) {
+          hash[this.name].push(this.value);
+        }
+        else if (this.name.match(/\[\]$/)) {
+          hash[this.name] = [hash[this.name], this.value];
+        }
+        else {
+          hash[this.name] = this.value;
+        }
+      }
+    });
+    
+    return hash;
+  }
+});
+
 // Section: Deparam (from string)
 // 
 // Method: jQuery.deparam
@@ -557,6 +593,10 @@ var scriptElement = (function deriveScriptElement() {
 
   var dummyScript = document.getElementById(id);
   var element = dummyScript.previousSibling;
+  
+  while (element && element.tagName.toLowerCase() != "script") {
+    element = element.previousSibling;
+  }
 
   dummyScript.parentNode.removeChild(dummyScript);
   return element;
@@ -732,7 +772,7 @@ SeatHolder = (function() {
 
 CodeHeroes = (function() {
   var initModules = function() {
-    $.each($.modules(Stirrr), function(i, module) {
+    $.each($.modules(CodeHeroes), function(i, module) {
       initSubModules(module);
     });
   };

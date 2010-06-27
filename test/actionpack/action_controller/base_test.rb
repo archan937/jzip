@@ -32,7 +32,7 @@ module Jzip
           def test_compilation(minify)
             prepare_directories(minify)
             get :index
-            assert_equal output_equals_comparison?, true
+            assert_equal mismatches, []
           end
         
           def prepare_directories(minify)
@@ -47,8 +47,8 @@ module Jzip
             FileUtils.cp_r File.join(test_dir, "javascripts", "before"        , "."), File.join(Jzip::Engine.root_dir, "public", "javascripts")
           end
           
-          def output_equals_comparison?
-            Dir.glob(File.join(comparison_dir, "**", "*.js")).all? do |javascript|
+          def mismatches
+            Dir.glob(File.join(comparison_dir, "**", "*.js")).reject do |javascript|
               relative_path = Pathname.new(File.expand_path(javascript)).relative_path_from(Pathname.new(File.expand_path(comparison_dir)))
               File.read(javascript) == File.read(File.join(Jzip::Engine.root_dir, relative_path)) rescue false
             end

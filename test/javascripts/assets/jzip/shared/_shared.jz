@@ -4,6 +4,7 @@
 //= require native/extensions/array
 
 //= require jquery/core
+//= require jquery/extensions/core
 //= require jquery/extensions/deparam
 
 //= require jquery/ajax_setup
