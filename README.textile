@@ -75,6 +75,8 @@ The following instructs Jzip to merge the Prototype and Scriptaculous libraries 
   //= require builder/model_browser
 </pre>
 
+Please see "http://github.com/archan937/jzip/tree/master/test/javascripts/assets/jzip/":http://github.com/archan937/jzip/tree/master/test/javascripts/assets/jzip/ for a complete assets directory example.
+
 h3. Registering template locations
 
 You probably already have guessed that the default location for Jzip templates is @RAILS_ROOT/assets/jzip@. I can imagine that you would have choosen another location. So fortunately, the Jzip engine offers you to that piece of freedom. All you have to do is put the following in your @environment.rb@ file: 
