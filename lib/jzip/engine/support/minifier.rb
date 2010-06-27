@@ -22,7 +22,7 @@ module Jzip
       private
       
         def derive_target(source_file)
-          source_file.gsub source_file.match(REG_EXPS[:partial]) ? Engine.tmp_dir : Engine.root_dir, File.join(Engine.tmp_dir, "minified")
+          source_file.gsub source_file.match(REG_EXPS[:partial]) ? Engine.tmp_dir : Engine.root_dir, File.join(Engine.tmp_dir, "_minified_")
         end
     
       end

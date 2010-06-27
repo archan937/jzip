@@ -64,14 +64,14 @@ A @.jz@ file (Jzip template or partial) is nothing more than a common .js file i
 
 Just like in Rails views and in SASS, Jzip has partials of which the output file will not be created in the target directory. The path to the Javascript file or Jzip template or partial has to be relative to the Jzip template / partial itself. Please note that specifying a preleading @/@ in the path will be interpreted by Jzip as @RAILS_ROOT/public/javascripts@ (which is very handy).
 
-Other than the path to a Javascript file, you can also refer to a predefined set of Javascripts sources. At the moment, only @defaults@ is available for the Prototype and Scriptaculous libs and application.js which are shipped with a Rails application. Any suggestions for other predefined sets are welcome. Further more, you can overrule the minification of a required source by adding an exclamation mark before the path (or before the predefined set).
+Other than the path to a Javascript file, you can also refer to a predefined set of Javascripts sources. At the moment, only @defaults@ is available for the Prototype and Scriptaculous libs and application.js which are shipped with a Rails application. Any suggestions for other predefined sets are welcome.
 
-The following instructs Jzip to merge the Prototype and Scriptaculous libraries with three custom Javascript files into @public/javascripts/foo.js@ and overrule the minification of @shared/topup@ at all times:
+The following instructs Jzip to merge the Prototype and Scriptaculous libraries with three custom Javascript files into @public/javascripts/foo.js@:
 
 *Note*: template is located in @assets/jzip/foo.jz@
 
 <pre>
-  //= require !shared/top_up
+  //= require shared/top_up
   //= require /defaults
   //= require builder/module
   //= require builder/model_browser
@@ -144,8 +144,7 @@ Also, the Jzip engine makes use of the Ruby JavaScript Minifier created by Dougl
 
 h2. ToDo's
 
-* Populate @test/javascripts/after/compressed@ which contain comparison material for the output of the compressed compilation test
-* Implement correct determination whether or not to minify code during compilation
+None.
 
 h2. License
 

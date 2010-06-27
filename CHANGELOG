@@ -1,5 +1,15 @@
 = Jzip CHANGELOG
 
+== Version 1.0.5 (June 27, 2010)
+
+* Corrected the plugin initialization
+* Changed the minification temp directory to "_minified_"
+
+== Version 1.0.4 (June 11, 2010)
+
+* Corrected setting the root_dir of Jzip::Engine
+* Using File.read and File.readlines from now on
+
 == Version 1.0.3 (June 10, 2010)
 
 * Corrected Template.derive_required_source(required_source)
