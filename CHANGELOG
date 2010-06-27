@@ -1,5 +1,9 @@
 = Jzip CHANGELOG
 
+== Version 1.0.6 (June 27, 2010)
+
+* Corrected the plugin installation
+
 == Version 1.0.5 (June 27, 2010)
 
 * Corrected the plugin initialization
