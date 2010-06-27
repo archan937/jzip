@@ -29,11 +29,6 @@ Add Jzip in environment.rb as a gem dependency:
   config.gem "jzip"
 </pre>
 
-Optionally, you can run @rake jzip:assets:install@ which creates the following:
-
-* @assets/jzip@ - which is the default template location
-* @assets/jzip/defaults.jz@ - a Jzip template which requires the default Javascript files (Prototype, Scriptaculous sources and application.js)
-
 h3. Using Jzip as plugin
 
 Install the Jzip plugin:
@@ -42,7 +37,10 @@ Install the Jzip plugin:
   ./script/plugin install git://github.com/archan937/jzip.git 
 </pre>
 
-*Note*: a Jzip template (@assets/jzip/defaults.jz@) for the Prototype and Scriptaculous sources along with application.js will be created
+*Note*: the following will be created at installation of the plugin:
+
+* @assets/jzip@ - which is the default template location
+* @assets/jzip/defaults.jz@ - a Jzip template which requires the default Javascript files (Prototype, Scriptaculous and application.js)
 
 h2. Usage
 
