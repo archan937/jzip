@@ -12,8 +12,6 @@ begin
     gemspec.email       = "paul.engel@holder.nl"
     gemspec.homepage    = "http://github.com/archan937/jzip"
     gemspec.author      = "Paul Engel"
-
-    gemspec.add_dependency "formtastic"
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
