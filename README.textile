@@ -1,7 +1,7 @@
 
 h1. Jzip
 
-A Rails gem (and also plugin) for Javascript merging and compression within Rails Apps
+A Rails gem (and also plugin) for Javascript merging and compression using templates (like SASS)
 
 h2. Introduction
 
