@@ -11,12 +11,6 @@ h2. Installation
 
 h3. Using Jzip as gem
 
-Add gemcutter as a gem source, if you haven't already done it:
-
-<pre>
-  sudo gem sources -a http://gemcutter.org/
-</pre>
-
 Install the Jzip gem:
 
 <pre>
