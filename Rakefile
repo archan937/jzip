@@ -8,7 +8,7 @@ begin
     gemspec.name        = "jzip"
     gemspec.summary     = "Javascript merging and compression for Rails Apps"
     gemspec.description = "Jzip was created due to the need of simply merging and minifying Javascript files to reduce HTTP requests and file size of application assets. Using sprites for images and SASS for stylesheets only left javascripts not be optimized.
-                           AssetPackager almost suited the solution, but it hasn't got enough flexibility in configuration. So using AssetPackager and SASS for inspriration the Jzip gem was created."
+                           AssetPackager almost suited the solution, but it hasn't got enough flexibility in configuration. So with AssetPackager (for minification) and SASS (for merging with templates) as inspiration, I came up with Jzip."
     gemspec.email       = "paul.engel@holder.nl"
     gemspec.homepage    = "http://github.com/archan937/jzip"
     gemspec.author      = "Paul Engel"

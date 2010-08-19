@@ -5,7 +5,7 @@ A Rails gem (and also plugin) for Javascript merging and compression using templ
 
 h2. Introduction
 
-Jzip was created due to the need of simply merging and minifying Javascript files to reduce HTTP requests and file size of my assets. Using sprites for images and SASS for stylesheets only left javascripts not be optimized. AssetPackager almost suited the solution, but I wanted more flexibility in configuration. So I got inspired by AssetPackager and SASS to come up with the Jzip. At first Jzip was a plugin only, but after refactoring the entire code base Jzip is available as a gem hosted on gemcutter.
+Jzip was created due to the need of simply merging and minifying Javascript files to reduce HTTP requests and file size of my assets. Using sprites for images and SASS for stylesheets only left javascripts not be optimized. AssetPackager almost suited the solution, but I wanted more flexibility in configuration. So with AssetPackager (for minification) and SASS (for merging with templates) as inspiration, I came up with Jzip. At first Jzip was a plugin only, but after refactoring the entire code base, Jzip is also available as a gem hosted on gemcutter.
 
 h2. Installation
 
