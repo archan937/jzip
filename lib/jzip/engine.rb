@@ -1,4 +1,5 @@
-require 'support/notifier'
+require "support/notifier"
+
 module Jzip
   module Engine
     include Support::Notifier
