@@ -1,5 +1,9 @@
 = Jzip CHANGELOG
 
+== Version 1.0.9 (August 27, 2010)
+
+* Corrected source file requiring (credits to Wijnand Wiersma)
+
 == Version 1.0.8 (June 27, 2010)
 
 * Corrected previous version (removed Formtastic as gem dependency)

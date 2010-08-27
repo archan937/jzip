@@ -1,4 +1,3 @@
-require "support/notifier"
 
 module Jzip
   module Engine
