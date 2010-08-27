@@ -5,13 +5,13 @@
 
 Gem::Specification.new do |s|
   s.name = %q{jzip}
-  s.version = "1.0.8"
+  s.version = "1.0.9"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Paul Engel"]
-  s.date = %q{2010-06-27}
+  s.date = %q{2010-08-27}
   s.description = %q{Jzip was created due to the need of simply merging and minifying Javascript files to reduce HTTP requests and file size of application assets. Using sprites for images and SASS for stylesheets only left javascripts not be optimized.
-                           AssetPackager almost suited the solution, but it hasn't got enough flexibility in configuration. So using AssetPackager and SASS for inspriration the Jzip gem was created.}
+                           AssetPackager almost suited the solution, but it hasn't got enough flexibility in configuration. So with AssetPackager (for minification) and SASS (for merging with templates) as inspiration, I came up with Jzip.}
   s.email = %q{paul.engel@holder.nl}
   s.extra_rdoc_files = [
     "README.textile"
