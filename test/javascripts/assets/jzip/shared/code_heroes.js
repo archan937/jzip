@@ -5,7 +5,7 @@ CodeHeroes = (function() {
       initSubModules(module);
     });
   };
-  
+
   var initSubModules = function(mod) {
     if (mod.init) {
       mod.init();
@@ -14,7 +14,7 @@ CodeHeroes = (function() {
       initSubModules(m);
     });
   };
-  
+
   return {
     init: function() {
       initModules();

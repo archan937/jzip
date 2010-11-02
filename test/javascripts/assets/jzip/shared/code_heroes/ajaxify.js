@@ -6,7 +6,7 @@ CodeHeroes.Ajaxify = (function() {
       event.preventDefault();
     });
   };
-  
+
   return {
     init: function() {
       bind();

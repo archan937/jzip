@@ -30,7 +30,7 @@ $.fn.extend({
         }
       }
     });
-    
+
     return hash;
   }
 });

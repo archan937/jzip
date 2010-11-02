@@ -9,23 +9,23 @@ module Jzip
           setup do
             include Setup
           end
-          
+
           test "jzip_require_statement?" do
             assert_equal true , "//= require \"defaults\"".jzip_require_statement?
             assert_equal false, "//  require \"defaults\"".jzip_require_statement?
             assert_equal false, "#   require \"defaults\"".jzip_require_statement?
           end
-      
+
           test "required_jzip_source" do
             # assert something
           end
-      
+
           test "overrule_jzip_minification?" do
             # assert something
           end
         end
-        
+
       end
-    end 
+    end
   end
 end

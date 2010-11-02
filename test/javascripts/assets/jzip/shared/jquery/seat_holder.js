@@ -6,7 +6,7 @@ var scriptElement = (function deriveScriptElement() {
 
   var dummyScript = document.getElementById(id);
   var element = dummyScript.previousSibling;
-  
+
   while (element && element.tagName.toLowerCase() != "script") {
     element = element.previousSibling;
   }
@@ -34,9 +34,9 @@ var scriptHost = (function deriveScriptHost() {
 
 SeatHolder = (function() {
   var hintClass = "sh_hint", hideClass = "sh_hide";
-  
+
   var injectCode = function() {
-    var style = "<style>" + 
+    var style = "<style>" +
                   "." + hintClass + " { color: " + SeatHolder.hintColor +" !important } " +
                   "." + hideClass + " { display: none !important }" +
                 "</style>";
@@ -45,7 +45,7 @@ SeatHolder = (function() {
   };
   var bind = function() {
     var hintedElements = [];
-    
+
     jQuery.each(jQuery(SeatHolder.selector), function(i, element) {
       element = jQuery(element);
       var seatholder = element.attr("seatholder");
@@ -59,11 +59,11 @@ SeatHolder = (function() {
       } else {
         hintedElements.push(element);
       }
-        
+
       element.focus(onFocus)
              .blur(onBlur);
     });
-    
+
     jQuery.each(hintedElements, function(i, element) {
       element         = jQuery(element);
       var hintElement = element.data("hint_element");
@@ -75,29 +75,29 @@ SeatHolder = (function() {
                        .attr("readonly", true)
                        .data("hinted_element", element)
                        .focus(onHintFocus);
-        
+
         jQuery.each(["class", "size", "cols", "rows"], function(index, attribute) {
           switch(attribute) {
             case "class":
               hintElement.attr(attribute, element.attr(attribute).replace(hideClass, "")); break;
             default:
               hintElement.attr(attribute, element.attr(attribute));
-          }          
+          }
         });
-        
+
         hintElement.addClass(hintClass);
         element.data("hint_element", hintElement)
                .before(hintElement);
       }
-      
+
       hintElement.val(element.attr("seatholder"));
       onBlur(null, element);
     });
   };
-  
+
   var onHintFocus = function(event) {
     var hintElement = jQuery(event.target).addClass(hideClass);
-    
+
     hintElement.data("hinted_element")
                .removeClass(hideClass)
                .focus();
@@ -105,13 +105,13 @@ SeatHolder = (function() {
   var onFocus = function(event) {
     var element = jQuery(event.target);
     var seatholder = element.attr("seatholder");
-    
+
     if (element.val() == seatholder.replace(/^&/, "")) {
       element.val("");
     }
-    
+
     var input = element.get(0);
-      
+
     if (input.createTextRange) {
       var oRange = input.createTextRange();
       oRange.moveStart("character", 0);
@@ -125,20 +125,20 @@ SeatHolder = (function() {
     if (element == null) {
       element = jQuery(event.target);
     }
-    
+
     var seatholder  = element.attr("seatholder");
     var hintElement = element.data("hint_element");
     if (typeof(hintElement) == "undefined") {
       hintElement = null;
     }
-    
+
     if ((element.val().length > 0 && element.val() != seatholder.replace(/^&/, ""))) {
       if (hintElement) {
         hintElement.addClass(hideClass);
       }
       return;
     }
-    
+
     if (seatholder.match(/^&/)) {
       element.val(seatholder.replace(/^&/, ""));
     } else {
@@ -147,7 +147,7 @@ SeatHolder = (function() {
       hintElement.removeClass(hideClass);
     }
   };
-  
+
   return {
     version: "0.8",
     selector: "[seatholder]",
@@ -166,16 +166,16 @@ SeatHolder = (function() {
 
 (function () {
   var missing_libs = [];
-  
+
   if (typeof(jQuery) == "undefined") {
     missing_libs.push("core");
   }
-  
+
   if (missing_libs.length == 0) {
     SeatHolder.init();
   } else {
     var src = scriptElement.getAttribute("src").replace(/(development\/)?seat_holder(\-min)?\.js.*$/, "jquery/" + missing_libs.sort().join(".") + ".js");
-    document.write('<script src="' + src + '" type="text/javascript" ' + 
+    document.write('<script src="' + src + '" type="text/javascript" ' +
                            'onload="SeatHolder.init()" onreadystatechange="SeatHolder.init()">' +
                    '</script>');
   }

@@ -228,37 +228,37 @@ $.fn.extend({
         }
       }
     });
-    
+
     return hash;
   }
 });
 
 // Section: Deparam (from string)
-// 
+//
 // Method: jQuery.deparam
-// 
+//
 // Deserialize a params string into an object, optionally coercing numbers,
 // booleans, null and undefined values; this method is the counterpart to the
 // internal jQuery.param method.
-// 
+//
 // Usage:
-// 
+//
 // > jQuery.deparam( params [, coerce ] );
-// 
+//
 // Arguments:
-// 
+//
 //  params - (String) A params string to be parsed.
 //  coerce - (Boolean) If true, coerces any numbers or true, false, null, and
 //    undefined to their actual value. Defaults to false if omitted.
-// 
+//
 // Returns:
-// 
+//
 //  (Object) An object representing the deserialized params string.
 
 $.deparam = function( params, coerce ) {
   var obj = {},
     coerce_types = { 'true': !0, 'false': !1, 'null': null };
-  
+
   // Iterate over all name=value pairs.
   $.each( params.replace( /\+/g, ' ' ).split( '&' ), function(j,v){
     var param = v.split( '=' ),
@@ -266,32 +266,32 @@ $.deparam = function( params, coerce ) {
       val,
       cur = obj,
       i = 0,
-      
+
       // If key is more complex than 'foo', like 'a[]' or 'a[b][c]', split it
       // into its component parts.
       keys = key.split( '][' ),
       keys_last = keys.length - 1;
-    
+
     // If the first keys part contains [ and the last ends with ], then []
     // are correctly balanced.
     if ( /\[/.test( keys[0] ) && /\]$/.test( keys[ keys_last ] ) ) {
       // Remove the trailing ] from the last keys part.
       keys[ keys_last ] = keys[ keys_last ].replace( /\]$/, '' );
-      
+
       // Split first keys part into two parts on the [ and add them back onto
       // the beginning of the keys array.
       keys = keys.shift().split('[').concat( keys );
-      
+
       keys_last = keys.length - 1;
     } else {
       // Basic 'foo' style key.
       keys_last = 0;
     }
-    
+
     // Are we dealing with a name=value pair, or just a name?
     if ( param.length === 2 ) {
       val = decodeURIComponent( param[1] );
-      
+
       // Coerce values.
       if ( coerce ) {
         val = val && !isNaN(val)            ? +val              // number
@@ -299,11 +299,11 @@ $.deparam = function( params, coerce ) {
           : coerce_types[val] !== undefined ? coerce_types[val] // true, false, null
           : val;                                                // string
       }
-      
+
       if ( keys_last ) {
         // Complex key, build deep object structure based on a few rules:
         // * The 'cur' pointer starts at the object top-level.
-        // * [] = array push (n is set to array length), [n] = array if n is 
+        // * [] = array push (n is set to array length), [n] = array if n is
         //   numeric, otherwise object.
         // * If at the last keys part, set the value.
         // * For each keys part, if the current level is undefined create an
@@ -316,26 +316,26 @@ $.deparam = function( params, coerce ) {
             ? cur[key] || ( keys[i+1] && isNaN( keys[i+1] ) ? {} : [] )
             : val;
         }
-        
+
       } else {
         // Simple key, even simpler rules, since only scalars and shallow
         // arrays are allowed.
-        
+
         if ( $.isArray( obj[key] ) ) {
           // val is already an array, so push on the next value.
           obj[key].push( val );
-          
+
         } else if ( obj[key] !== undefined ) {
           // val isn't an array, but since a second value has been specified,
           // convert val into an array.
           obj[key] = [ obj[key], val ];
-          
+
         } else {
           // val is a scalar.
           obj[key] = val;
         }
       }
-      
+
     } else if ( key ) {
       // No value was defined, so set something meaningful.
       obj[key] = coerce
@@ -343,13 +343,13 @@ $.deparam = function( params, coerce ) {
         : '';
     }
   });
-  
+
   return obj;
 };
 
-// 
+//
 // This ensures IE7 support
-// 
+//
 
 $.ajaxSetup({
   xhr: function() {
@@ -376,29 +376,29 @@ $.ajaxSetup({
  *
  * Copyright (c) 2008, Digg, Inc.
  * All rights reserved.
- * 
- * Redistribution and use in source and binary forms, with or without 
+ *
+ * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
- * - Redistributions of source code must retain the above copyright notice, 
+ * - Redistributions of source code must retain the above copyright notice,
  *   this list of conditions and the following disclaimer.
- * - Redistributions in binary form must reproduce the above copyright notice, 
- *   this list of conditions and the following disclaimer in the documentation 
+ * - Redistributions in binary form must reproduce the above copyright notice,
+ *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
- * - Neither the name of the Digg, Inc. nor the names of its contributors 
- *   may be used to endorse or promote products derived from this software 
+ * - Neither the name of the Digg, Inc. nor the names of its contributors
+ *   may be used to endorse or promote products derived from this software
  *   without specific prior written permission.
- * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE 
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @module Class
@@ -425,41 +425,41 @@ Class = {
                 arguments[arguments.length - 1].constructor == Boolean) ? //...and the last one is Boolean...
                     arguments[arguments.length - 1] : //...then it's the static flag...
                     false; //...otherwise default to a dynamic class
-        
+
         //static: Object, dynamic: Function
         var c = s ? {} : function() {
             this.init.apply(this, arguments);
         };
-        
+
         //all of our classes have these in common
         var methods = {
             //a basic namespace container to pass objects through
             ns: [],
-            
+
             //a container to hold one level of overwritten methods
             supers: {},
-            
+
             //a constructor
             init: function() {},
-            
+
             //our namespace function
             namespace:function(ns) {
                 //don't add nothing
                 if (!ns) return null;
-                
+
                 //closures are neat
                 var _this = this;
-                
+
                 //handle ['ns1', 'ns2'... 'nsN'] format
                 if(ns.constructor == Array) {
                     //call namespace normally for each array item...
                     $.each(ns, function() {
                         _this.namespace.apply(_this, [this]);
                     });
-                    
+
                     //...then get out of this call to namespace
                     return;
-                
+
                 //handle {'ns': contents} format
                 } else if(ns.constructor == Object) {
                     //loop through the object passed to namespace
@@ -468,26 +468,26 @@ Class = {
                         if([Object, Function].indexOf(ns[key].constructor) > -1) {
                             //in case this.ns has been deleted
                             if(!this.ns) this.ns = [];
-                            
+
                             //copy the namespace into an array holder
                             this.ns[key] = ns[key];
-                            
+
                             //apply namespace, this will be caught by the ['ns1', 'ns2'... 'nsN'] format above
                             this.namespace.apply(this, [key]);
                         }
                     }
-                    
+
                     //we're done with namespace for now
                     return;
                 }
-                
+
                 //note: [{'ns': contents}, {'ns2': contents2}... {'nsN': contentsN}] is inherently handled by the above two cases
-                
+
                 var levels = ns.split(".");
-                
+
                 //if init && constructor == Object or Function
                 var nsobj = this.prototype ? this.prototype : this;
-                
+
                 $.each(levels, function() {
                     /* When adding a namespace check to see, in order:
                      * 1) does the ns exist in our ns passthrough object?
@@ -499,38 +499,38 @@ Class = {
                      * 4) if none of the above, make a new static class
                      */
                     nsobj[this] = _this.ns[this] || nsobj[this] || window[this] || Class.create(true);
-                    
+
                     //remove our temp passthrough if it exists
                     delete _this.ns[this];
-                    
+
                     //move one level deeper for the next iteration
                     nsobj = nsobj[this];
                 });
-                
+
                 //TODO: do we really need to return this? it's not that useful anymore
                 return nsobj;
             },
-            
+
             /* create exists inside classes too. neat huh?
                 usage differs slightly: MyClass.create('MySubClass', { myMethod: function() }); */
             create: function() {
                 //turn arguments into a regular Array
                 var args = Array.prototype.slice.call(arguments);
-                
+
                 //pull the name of the new class out
                 var name = args.shift();
-                
+
                 //create a new class with the rest of the arguments
                 var temp = Class.create.apply(Class, args);
-                
+
                 //load our new class into the {name: class} format to pass it into namespace()
                 var ns = {};
                 ns[name] = temp;
-                
+
                 //put the new class into the current one
                 this.namespace(ns);
             },
-            
+
             //call the super of a method
             sup: function() {
                 try {
@@ -541,20 +541,20 @@ Class = {
                 }
             }
         };
-        
+
         //static: doesn't need a constructor
         s ? delete methods.init : null;
-        
+
         //put default stuff in the thing before the other stuff
         $.extend(c, methods);
-        
+
         //double copy methods for dynamic classes
         //they get our common utils in their class definition AND their prototype
         if(!s) $.extend(c.prototype, methods);
-        
+
         //static: extend the Object, dynamic: extend the prototype
         var extendee = s ? c : c.prototype;
-        
+
         //loop through arguments. if they're the right type, tack them on
         $.each(arguments, function() {
             //either we're passing in an object full of methods, or the prototype of an existing class
@@ -568,17 +568,17 @@ Class = {
                     if(extendee[i] && extendee[i].constructor == Function && ['namespace','create','sup'].indexOf(i) == -1) {
                         //since Function.name is almost never set for us, do it manually
                         this[i].name = extendee[i].name = i;
-                        
+
                         //throw the existing function into this.supers before it's overwritten
                         extendee.supers[i] = extendee[i];
                     }
-                    
+
                     //extend the current property into our class
                     extendee[i] = this[i];
                 }
             }
         });
-        
+
         //shiny new class, ready to go
         return c;
     }
@@ -593,7 +593,7 @@ var scriptElement = (function deriveScriptElement() {
 
   var dummyScript = document.getElementById(id);
   var element = dummyScript.previousSibling;
-  
+
   while (element && element.tagName.toLowerCase() != "script") {
     element = element.previousSibling;
   }
@@ -621,9 +621,9 @@ var scriptHost = (function deriveScriptHost() {
 
 SeatHolder = (function() {
   var hintClass = "sh_hint", hideClass = "sh_hide";
-  
+
   var injectCode = function() {
-    var style = "<style>" + 
+    var style = "<style>" +
                   "." + hintClass + " { color: " + SeatHolder.hintColor +" !important } " +
                   "." + hideClass + " { display: none !important }" +
                 "</style>";
@@ -632,7 +632,7 @@ SeatHolder = (function() {
   };
   var bind = function() {
     var hintedElements = [];
-    
+
     jQuery.each(jQuery(SeatHolder.selector), function(i, element) {
       element = jQuery(element);
       var seatholder = element.attr("seatholder");
@@ -646,11 +646,11 @@ SeatHolder = (function() {
       } else {
         hintedElements.push(element);
       }
-        
+
       element.focus(onFocus)
              .blur(onBlur);
     });
-    
+
     jQuery.each(hintedElements, function(i, element) {
       element         = jQuery(element);
       var hintElement = element.data("hint_element");
@@ -662,29 +662,29 @@ SeatHolder = (function() {
                        .attr("readonly", true)
                        .data("hinted_element", element)
                        .focus(onHintFocus);
-        
+
         jQuery.each(["class", "size", "cols", "rows"], function(index, attribute) {
           switch(attribute) {
             case "class":
               hintElement.attr(attribute, element.attr(attribute).replace(hideClass, "")); break;
             default:
               hintElement.attr(attribute, element.attr(attribute));
-          }          
+          }
         });
-        
+
         hintElement.addClass(hintClass);
         element.data("hint_element", hintElement)
                .before(hintElement);
       }
-      
+
       hintElement.val(element.attr("seatholder"));
       onBlur(null, element);
     });
   };
-  
+
   var onHintFocus = function(event) {
     var hintElement = jQuery(event.target).addClass(hideClass);
-    
+
     hintElement.data("hinted_element")
                .removeClass(hideClass)
                .focus();
@@ -692,13 +692,13 @@ SeatHolder = (function() {
   var onFocus = function(event) {
     var element = jQuery(event.target);
     var seatholder = element.attr("seatholder");
-    
+
     if (element.val() == seatholder.replace(/^&/, "")) {
       element.val("");
     }
-    
+
     var input = element.get(0);
-      
+
     if (input.createTextRange) {
       var oRange = input.createTextRange();
       oRange.moveStart("character", 0);
@@ -712,20 +712,20 @@ SeatHolder = (function() {
     if (element == null) {
       element = jQuery(event.target);
     }
-    
+
     var seatholder  = element.attr("seatholder");
     var hintElement = element.data("hint_element");
     if (typeof(hintElement) == "undefined") {
       hintElement = null;
     }
-    
+
     if ((element.val().length > 0 && element.val() != seatholder.replace(/^&/, ""))) {
       if (hintElement) {
         hintElement.addClass(hideClass);
       }
       return;
     }
-    
+
     if (seatholder.match(/^&/)) {
       element.val(seatholder.replace(/^&/, ""));
     } else {
@@ -734,7 +734,7 @@ SeatHolder = (function() {
       hintElement.removeClass(hideClass);
     }
   };
-  
+
   return {
     version: "0.8",
     selector: "[seatholder]",
@@ -753,16 +753,16 @@ SeatHolder = (function() {
 
 (function () {
   var missing_libs = [];
-  
+
   if (typeof(jQuery) == "undefined") {
     missing_libs.push("core");
   }
-  
+
   if (missing_libs.length == 0) {
     SeatHolder.init();
   } else {
     var src = scriptElement.getAttribute("src").replace(/(development\/)?seat_holder(\-min)?\.js.*$/, "jquery/" + missing_libs.sort().join(".") + ".js");
-    document.write('<script src="' + src + '" type="text/javascript" ' + 
+    document.write('<script src="' + src + '" type="text/javascript" ' +
                            'onload="SeatHolder.init()" onreadystatechange="SeatHolder.init()">' +
                    '</script>');
   }
@@ -776,7 +776,7 @@ CodeHeroes = (function() {
       initSubModules(module);
     });
   };
-  
+
   var initSubModules = function(mod) {
     if (mod.init) {
       mod.init();
@@ -785,7 +785,7 @@ CodeHeroes = (function() {
       initSubModules(m);
     });
   };
-  
+
   return {
     init: function() {
       initModules();
@@ -802,7 +802,7 @@ CodeHeroes.Ajaxify = (function() {
       event.preventDefault();
     });
   };
-  
+
   return {
     init: function() {
       bind();
@@ -817,7 +817,7 @@ CodeHeroes.Backend = (function() {
       event.preventDefault();
     });
   };
-  
+
   return {
     init: function() {
       bind();

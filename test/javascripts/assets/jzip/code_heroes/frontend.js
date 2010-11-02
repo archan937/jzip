@@ -6,7 +6,7 @@ CodeHeroes.Frontend = (function() {
       event.preventDefault();
     });
   };
-  
+
   return {
     init: function() {
       bind();

@@ -28,7 +28,7 @@ h3. Using Jzip as plugin
 Install the Jzip plugin:
 
 <pre>
-  ./script/plugin install git://github.com/archan937/jzip.git 
+  ./script/plugin install git://github.com/archan937/jzip.git
 </pre>
 
 *Note*: the following will be created at installation of the plugin:
@@ -73,7 +73,7 @@ Please see "http://github.com/archan937/jzip/tree/master/test/javascripts/assets
 
 h3. Registering template locations
 
-You probably already have guessed that the default location for Jzip templates is @RAILS_ROOT/assets/jzip@. I can imagine that you would have choosen another location. So fortunately, the Jzip engine offers you to that piece of freedom. All you have to do is put the following in your @environment.rb@ file: 
+You probably already have guessed that the default location for Jzip templates is @RAILS_ROOT/assets/jzip@. I can imagine that you would have choosen another location. So fortunately, the Jzip engine offers you to that piece of freedom. All you have to do is put the following in your @environment.rb@ file:
 
 <pre>
   Jzip::Engine.add_template_location < your_own_template_location(s) >

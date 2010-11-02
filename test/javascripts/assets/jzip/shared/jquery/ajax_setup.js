@@ -1,6 +1,6 @@
-// 
+//
 // This ensures IE7 support
-// 
+//
 
 $.ajaxSetup({
   xhr: function() {

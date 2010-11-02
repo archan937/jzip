@@ -6,7 +6,7 @@ CodeHeroes.Backend = (function() {
       event.preventDefault();
     });
   };
-  
+
   return {
     init: function() {
       bind();
