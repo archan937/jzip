@@ -1,5 +1,12 @@
 = Jzip CHANGELOG
 
+== Version 1.0.11 (November 2, 2010)
+
+* Introduced Jzip::Engine.options[:log_level] which provides control over the Jzip logging (available options are :error, :info, :debug and :console)
+* Explicitly requiring Jzip::Engine::Support::Minifier and Jzip::Plugin
+* Using Rails environment flags
+* Change RAILS to Rails.
+
 == Version 1.0.10 (September 3, 2010)
 
 * Updated source file requiring

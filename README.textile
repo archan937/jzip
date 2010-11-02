@@ -163,6 +163,10 @@ SASS<br>
 Also, the Jzip engine makes use of the Ruby JavaScript Minifier created by Douglas Crockford<br>
 "http://www.crockford.com/javascript/jsmin.html":http://www.crockford.com/javascript/jsmin.html
 
+h2. Contributors
+
+Mark Mulder - "@bitterzoet":http://twitter.com/bitterzoet - "http://ikbenbitterzoet.com":http://ikbenbitterzoet.com
+
 h2. ToDo's
 
 None.
