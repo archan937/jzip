@@ -9,32 +9,50 @@ Jzip was created due to the need of simply merging and minifying Javascript file
 
 h2. Installation
 
-h3. Using Jzip as gem
+h3. Using Jzip as gem in Rails 3
 
-Install the Jzip gem:
+Add Jzip in @Gemfile@ as a gem dependency:
 
 <pre>
-  sudo gem install jzip
+  gem "jzip"
 </pre>
 
-Add Jzip in environment.rb as a gem dependency:
+Run the following in your console to install with Bundler:
+
+<pre>
+  bundle install
+</pre>
+
+h3. Using Jzip as gem in Rails 2
+
+Add Jzip in @environment.rb@ as a gem dependency:
 
 <pre>
   config.gem "jzip"
 </pre>
 
-h3. Using Jzip as plugin
-
-Install the Jzip plugin:
+Run the following in your console:
 
 <pre>
-  ./script/plugin install git://github.com/archan937/jzip.git
+  sudo rake gems:install
+</pre>
+
+h3. Using Jzip as plugin in Rails 3
+
+<pre>
+  rails plugin install git://github.com/archan937/jzip.git
 </pre>
 
 *Note*: the following will be created at installation of the plugin:
 
 * @assets/jzip@ - which is the default template location
 * @assets/jzip/defaults.jz@ - a Jzip template which requires the default Javascript files (Prototype, Scriptaculous and application.js)
+
+h3. Using Jzip as plugin in Rails 2
+
+<pre>
+  script/plugin install git://github.com/archan937/jzip.git
+</pre>
 
 h2. Usage
 
@@ -111,14 +129,14 @@ Finally, Jzip has some options that you can configure in the @environment.rb@ fi
 
 * @:minify@        - Minify the merged Javascript file using the JSMin library (default: true when in production environment)
 * @:always_update@ - Merge (and minify when specified) the Jzip templates on every page request when outdated (default: true when not in production environment)
-* @:logger@        - What is used for logging, you can pass through :puts or :logger to login to stdout or Rails.logger.debug respectively (default: false)
+* @:log_level@     - Which is used for logging, you can pass through the regular Rails log levels (@:error@, @:info@ and @:debug@) and even @:console@ which puts the output in your console (default: nil)
 
 You can specify a Jzip option by putting the following in your @environment.rb@ file:
 
 <pre>
   Jzip::Engine.options[:minify]        = false
   Jzip::Engine.options[:always_update] = true
-  Jzip::Engine.options[:logger]        = :puts
+  Jzip::Engine.options[:log_level]     = :console
 </pre>
 
 h3. In the Rails console
