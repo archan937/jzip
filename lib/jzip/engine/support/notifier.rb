@@ -6,11 +6,11 @@ module Jzip
 
         def notify(message)
           string = wrap(message)
-          case Jzip::Engine.options[:logger]
-          when :puts
+          case Jzip::Engine.options[:log_level]
+          when :console
             puts string
-          when :logger
-            Rails.logger.debug(string)
+          when :error, :info, :debug
+            Rails.logger.send Jzip::Engine.options[:log_level], string
           end
         end
 
