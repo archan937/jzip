@@ -6,7 +6,7 @@ module Jzip
 
         def notify(message)
           string = wrap(message)
-          Rails.env == "test" ? puts(string) : Rails.logger.info(string)
+          Rails.logger.info(string)
         end
 
       private
