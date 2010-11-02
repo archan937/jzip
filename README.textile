@@ -111,12 +111,14 @@ Finally, Jzip has some options that you can configure in the @environment.rb@ fi
 
 * @:minify@        - Minify the merged Javascript file using the JSMin library (default: true when in production environment)
 * @:always_update@ - Merge (and minify when specified) the Jzip templates on every page request when outdated (default: true when not in production environment)
+* @:logger@        - What is used for logging, you can pass through :puts or :logger to login to stdout or Rails.logger.debug respectively (default: false)
 
 You can specify a Jzip option by putting the following in your @environment.rb@ file:
 
 <pre>
   Jzip::Engine.options[:minify]        = false
   Jzip::Engine.options[:always_update] = true
+  Jzip::Engine.options[:logger]        = :puts
 </pre>
 
 h3. In the Rails console

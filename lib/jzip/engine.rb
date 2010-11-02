@@ -10,7 +10,8 @@ module Jzip
 
     @options = {
       :minify        => Rails.env.production?,
-      :always_update => !Rails.env.production?
+      :always_update => !Rails.env.production?,
+      :logger        => false
     }
 
     attr_reader :root_dir, :options
