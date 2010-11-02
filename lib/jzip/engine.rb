@@ -9,9 +9,10 @@ module Jzip
     REG_EXPS        = {:require_statement => /^\/\/\=\s*require\s*/, :partial => /^_/, :default_javascripts => /^\//}
 
     @options = {
-      :minify        => Rails.env == "production",
-      :always_update => Rails.env != "production"
+      :minify        => Rails.env.production?,
+      :always_update => !Rails.env.production?
     }
+
     attr_reader :root_dir, :options
 
     def root_dir=(value)
