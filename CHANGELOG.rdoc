@@ -1,0 +1,99 @@
+= Jzip CHANGELOG
+
+== Version 1.0.11 (November 2, 2010)
+
+* Introduced Jzip::Engine.options[:log_level] which provides control over the Jzip logging (available options are :error, :info, :debug and :console)
+* Explicitly requiring Jzip::Engine::Support::Minifier and Jzip::Plugin
+* Using Rails environment flags
+* Change RAILS to Rails.
+
+== Version 1.0.10 (September 3, 2010)
+
+* Updated source file requiring
+
+Updated source file requiring
+
+== Version 1.0.9 (August 27, 2010)
+
+* Corrected source file requiring (credits to Wijnand Wiersma)
+
+== Version 1.0.8 (June 27, 2010)
+
+* Corrected previous version (removed Formtastic as gem dependency)
+
+== Version 1.0.7 (June 27, 2010)
+
+* Added Formtastic as gem dependency (doh!)
+
+== Version 1.0.6 (June 27, 2010)
+
+* Corrected the plugin installation
+
+== Version 1.0.5 (June 27, 2010)
+
+* Corrected the plugin initialization
+* Changed the minification temp directory to "_minified_"
+
+== Version 1.0.4 (June 11, 2010)
+
+* Corrected setting the root_dir of Jzip::Engine
+* Using File.read and File.readlines from now on
+
+== Version 1.0.3 (June 10, 2010)
+
+* Corrected Template.derive_required_source(required_source)
+* Corrected Requirement.newer?
+* Tweaked the template output (regarding new lines)
+* Also notifying in the test environment
+* Added extra notifications
+
+== Version 1.0.2 (June 8, 2010)
+
+* Being able to alter the root dir (default is RAILS_ROOT)
+* Running Jzip::Engine.init on initial compile
+
+== Version 1.0.1 (June 5, 2010)
+
+* Altered the ActionController::Base hook a bit
+
+== Version 1.0.0 (May 31, 2010)
+
+* Refactored the entire code base (cleaned up the module and file structure and separated functionality)
+* Improved Javascript file compiling
+* Introduced Jzip partials
+* Deprecated Jzip::Plugin (use Jzip::Engine instead)
+
+== Version 0.2.1 (May 5, 2010)
+
+* Altered the plugin initialization
+* Refactored the code a bit (moved code to separate files and using Sass' method to trigger compiling)
+* Added more logging info
+
+== Version 0.2.0 (September 19, 2009)
+
+* Refactored the requirements method:
+  - enabled using a preleading '/' in the required_source parameter to specify 'RAILS_ROOT/public/javascripts'
+  - using a more transparent approach of parsing 'defaults' to Prototype and Scriptaculous sources
+  - being able to add predefined sources (such as 'defaults') with great ease
+  - only adding a predefined source when the file exists
+* Added a preleading '/' to the at installment generated Jzip template
+* Not specifying the template location(s) in the Jzip::Plugin.options anymore (this let's you add template locations without having to know the whereabouts of other locations):
+  - the locations are stored in a private variable
+  - adding a template location has to be done by calling Jzip::Plugin.add_template_location
+
+== Version 0.1.3 (September 1, 2009)
+
+* Always parsing Jzip templates when on initial compile and options[:minify] is set to true
+
+== Version 0.1.2 (August 31, 2009)
+
+* Fixed bug in 'require_code' method (generating empty .js files)
+
+== Version 0.1.1 (August 30, 2009)
+
+* Only parsing Jzip templates when the target file doesn't exist or either the template or its required sources has been updated
+* Provided the possibility of overruling the Jzip minification by adding an exclamation mark before the required source or defaults (e.g. //= require !foo)
+
+== Version 0.1.0 (August 30, 2009)
+
+* Initial release
