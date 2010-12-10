@@ -11,8 +11,6 @@
 
 * Updated source file requiring
 
-Updated source file requiring
-
 == Version 1.0.9 (August 27, 2010)
 
 * Corrected source file requiring (credits to Wijnand Wiersma)
