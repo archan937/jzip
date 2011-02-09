@@ -21,12 +21,74 @@ end
 desc "Default: run unit tests."
 task :default => :test
 
-desc "Test the jzip plugin."
-Rake::TestTask.new(:test) do |t|
-  t.libs    << "lib"
-  t.libs    << "test"
-  t.pattern  = "test/**/*_test.rb"
-  t.verbose  = true
+task :test do
+  Rake::Task["test:all"].execute
+end
+
+task :restore do
+  Rake::Task["restore:all"].execute
+end
+
+task :stash do
+  Rake::Task["stash:all"].execute
+end
+
+namespace :test do
+  desc "Test the jzip plugin in Rails 2 and 3."
+  task :all do
+    system "rake test:rails-2"
+    system "rake test:rails-3"
+  end
+  desc "Test the jzip plugin in Rails 2."
+  Rake::TestTask.new(:"rails-2") do |t|
+    t.libs    << "lib"
+    t.libs    << "test"
+    t.pattern  = "test/rails-2/test/{,/*/**}/*_test.rb"
+    t.verbose  = true
+  end
+  desc "Test the jzip plugin in Rails 3."
+  Rake::TestTask.new(:"rails-3") do |t|
+    t.libs    << "lib"
+    t.libs    << "test"
+    t.pattern  = "test/rails-3/test/{,/*/**}/*_test.rb"
+    t.verbose  = true
+  end
+end
+
+namespace :restore do
+  desc "Restore the Rails 2 and 3 dummy apps."
+  task :all do
+    system "rake restore:rails-2"
+    system "rake restore:rails-3"
+  end
+  desc "Restore the Rails 2 dummy app."
+  task :"rails-2" do
+    require "test/rails-2/dummy/test/support/dummy_app.rb"
+    DummyApp.restore_all
+  end
+  desc "Restore the Rails 3 dummy app."
+  task :"rails-3" do
+    require "test/rails-3/dummy/test/support/dummy_app.rb"
+    DummyApp.restore_all
+  end
+end
+
+namespace :stash do
+  desc "Stash the Rails 2 and 3 dummy apps."
+  task :all do
+    system "rake stash:rails-2"
+    system "rake stash:rails-3"
+  end
+  desc "Stash the Rails 2 dummy app."
+  task :"rails-2" do
+    require "test/rails-2/dummy/test/support/dummy_app.rb"
+    DummyApp.stash_all
+  end
+  desc "Stash the Rails 3 dummy app."
+  task :"rails-3" do
+    require "test/rails-3/dummy/test/support/dummy_app.rb"
+    DummyApp.stash_all
+  end
 end
 
 desc "Generate documentation for the jzip plugin."
