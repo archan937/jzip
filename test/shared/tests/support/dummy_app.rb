@@ -1,5 +1,7 @@
 STDOUT.sync = true
 
+require "fileutils"
+
 module DummyApp
   extend self
 
@@ -11,10 +13,11 @@ module DummyApp
     restore_all
     stash_all
     yield self if block_given?
-    prepare_database
     @prepared = true
 
-    log "=".ljust 145, "="
+    log "\n".rjust 145, "="
+    log "Environment for Rails #{major_rails_version} - #{description} is ready for testing"
+    log "=" .ljust 145, "="
     require File.expand_path("../../test_helper.rb", __FILE__)
   end
 
@@ -134,6 +137,11 @@ private
     File.open target(file), "w" do |file|
       file << content
     end if content
+  end
+
+  def copy(source, destination)
+    log "Copying    #{source} -> #{destination}"
+    FileUtils.cp expand_path(source), expand_path(destination)
   end
 
   def run(command)

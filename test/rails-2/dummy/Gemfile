@@ -1,6 +1,10 @@
 source "http://rubygems.org"
 
 gem "rails", "2.3.11"
-gem "sqlite3"
 
-gem "name", :path => File.join(File.dirname(__FILE__), "..", "..", "..")
+gem "jzip", :path => File.expand_path("../../../..", __FILE__)
+
+gem "shoulda"
+gem "mocha"
+gem "capybara"
+gem "launchy"
