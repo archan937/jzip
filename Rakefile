@@ -43,14 +43,14 @@ namespace :test do
   Rake::TestTask.new(:"rails-2") do |t|
     t.libs    << "lib"
     t.libs    << "test"
-    t.pattern  = "test/rails-2/test/{,/*/**}/*_test.rb"
+    t.pattern  = "test/rails-2/dummy/test/{,/*/**}/*_test.rb"
     t.verbose  = true
   end
   desc "Test the jzip plugin in Rails 3."
   Rake::TestTask.new(:"rails-3") do |t|
     t.libs    << "lib"
     t.libs    << "test"
-    t.pattern  = "test/rails-3/test/{,/*/**}/*_test.rb"
+    t.pattern  = "test/rails-3/dummy/test/{,/*/**}/*_test.rb"
     t.verbose  = true
   end
 end
