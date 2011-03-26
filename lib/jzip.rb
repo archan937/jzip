@@ -1,4 +1,3 @@
-
 module Jzip
   extend self
 end
@@ -11,4 +10,4 @@ require "jzip/engine/support/minifier"
 require "jzip/engine"
 require "jzip/engine/template"
 require "jzip/engine/requirement"
-require "jzip/plugin"
+require "jzip/version"
