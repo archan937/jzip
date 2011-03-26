@@ -1,4 +1,3 @@
-
 module Jzip
   module Core
     module String

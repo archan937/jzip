@@ -1,4 +1,3 @@
-
 module Jzip
   module Engine
     include Support::Notifier

@@ -1,4 +1,3 @@
-
 require "jzip/core/string/analyzation"
 
 class String

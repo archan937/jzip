@@ -7,7 +7,7 @@ require "rake/rdoctask"
 desc "Default: run unit tests."
 task :default => :test
 
-desc "Run unit tests in both dummy apps."
+desc "Test Jzip."
 task :test do
   system "suit test unit:all"
 end

@@ -1,4 +1,3 @@
-
 unless defined?(Jzip::CONTROLLER_HOOKED)
 
   module ActionController

@@ -1,4 +1,3 @@
-
 module Jzip
   module Assets
     extend self
