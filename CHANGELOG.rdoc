@@ -1,5 +1,11 @@
 = Jzip CHANGELOG
 
+== Version 1.1.0 (March xxx, 2011)
+
+* Replaced jzip.rake with bin/jzip
+* Dropped Jeweler
+* Using GemSuit for testing
+
 == Version 1.0.11 (November 2, 2010)
 
 * Introduced Jzip::Engine.options[:log_level] which provides control over the Jzip logging (available options are :error, :info, :debug and :console)

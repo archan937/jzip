@@ -1,11 +1,10 @@
-
 h1. Jzip
 
-A Rails gem (and also plugin) for Javascript merging and compression using templates (like SASS)
+A Rails gem for Javascript merging and compression using templates (like SASS)
 
 h2. Introduction
 
-Jzip was created due to the need of simply merging and minifying Javascript files to reduce HTTP requests and file size of my assets. Using sprites for images and SASS for stylesheets only left javascripts not be optimized. AssetPackager almost suited the solution, but I wanted more flexibility in configuration. So with AssetPackager (for minification) and SASS (for merging with templates) as inspiration, I came up with Jzip. At first Jzip was a plugin only, but after refactoring the entire code base, Jzip is also available as a gem hosted on gemcutter.
+Jzip was created due to the need of simply merging and minifying Javascript files to reduce HTTP requests and file size of my assets. Using sprites for images and SASS for stylesheets only left javascripts not be optimized. AssetPackager almost suited the solution, but I wanted more flexibility in configuration. So with AssetPackager (for minification) and SASS (for merging with templates) as inspiration, I came up with Jzip. At first Jzip was a plugin only, but after refactoring the entire code base, Jzip is now a gem hosted on gemcutter.
 
 h2. Installation
 
@@ -35,23 +34,6 @@ Run the following in your console:
 
 <pre>
   sudo rake gems:install
-</pre>
-
-h3. Using Jzip as plugin in Rails 3
-
-<pre>
-  rails plugin install git://github.com/archan937/jzip.git
-</pre>
-
-*Note*: the following will be created at installation of the plugin:
-
-* @assets/jzip@ - which is the default template location
-* @assets/jzip/defaults.jz@ - a Jzip template which requires the default Javascript files (Prototype, Scriptaculous and application.js)
-
-h3. Using Jzip as plugin in Rails 2
-
-<pre>
-  script/plugin install git://github.com/archan937/jzip.git
 </pre>
 
 h2. Usage
@@ -97,12 +79,6 @@ You probably already have guessed that the default location for Jzip templates i
   Jzip::Engine.add_template_location < your_own_template_location(s) >
 </pre>
 
-This comes in very handy when building a Rails plugin that uses Jzip because you don't want to copy your all Jzip templates to @RAILS_ROOT/assets/jzip@. So let's say your plugin is called @betty@, all you have to do is put the following in it's @init.rb@ file:
-
-<pre>
-  Jzip::Engine.add_template_location RAILS_ROOT + "vendor/plugins/betty/assets/jzip"
-</pre>
-
 Now isn't that a piece cake? Not only can you pass a @string@ containing the template location, you can also pass an @array of strings@ (containing multiple locations) or a @hash@ (which also specifies the output directory):
 
 * @string@ - target directory will be @public/javascripts@
@@ -114,13 +90,13 @@ Now isn't that a piece cake? Not only can you pass a @string@ containing the tem
 * @array@ - target directory will be @public/javascripts@
 
 <pre>
-  [RAILS_ROOT + "/some/path/jzip", RAILS_ROOT + "/vendor/plugins/foo/assets/jzip"]
+  [RAILS_ROOT + "/some/path/jzip", path/to/your/jzip/templates]
 </pre>
 
-* @hash@ - target directory will be @public/javascripts/betty@
+* @hash@ - target directory will be @public/javascripts/your/target_directory@
 
 <pre>
-  {RAILS_ROOT + "/vendor/plugins/betty/assets/jzip" => RAILS_ROOT + "/public/javascripts/betty"}
+  {"path/to/your/jzip/templates" => RAILS_ROOT + "/public/javascripts/your/target_directory"}
 </pre>
 
 h3. Compile options
@@ -173,7 +149,7 @@ None.
 
 h2. License
 
-Copyright (c) 2010 Paul Engel, released under the MIT license
+Copyright (c) 2011 Paul Engel, released under the MIT license
 
 "http://holder.nl":http://holder.nl - "http://codehero.es":http://codehero.es - "http://gettopup.com":http://gettopup.com - "http://twitter.com/archan937":http://twitter.com/archan937 - "paul.engel@holder.nl":mailto:paul.engel@holder.nl
 
