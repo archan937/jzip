@@ -1,4 +1,4 @@
-module ActionController
+module GemSuit
   class IntegrationTest
 
     # def login
@@ -26,6 +26,10 @@ module ActionController
     #   end
     #   find(selector).find_button(submit).click
     #   sleep 2
+    # end
+
+    # def say_hello
+    #   page.execute_script "Hello, you!"
     # end
 
   end
