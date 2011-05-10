@@ -1,10 +1,11 @@
 = Jzip CHANGELOG
 
-== Version 1.1.0 (March xxx, 2011)
+== Version 1.1.0 (May xxx, 2011)
 
 * Replaced jzip.rake with bin/jzip
-* Dropped Jeweler
 * Using GemSuit for testing
+* Made Jzip Ruby 1.9.2 compatible (thanks to Johan Vermeulen)
+* Dropped Jeweler
 
 == Version 1.0.11 (November 2, 2010)
 
