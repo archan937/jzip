@@ -1,12 +1,11 @@
 module Jzip
   module Engine
-
-    Template = Struct.new(:template, :source, :target) do
-
+    class Template
       include Support::Notifier
 
       @@instances = {}
       attr_reader :target_file
+      attr_accessor :template, :source, :target
 
       def self.clear_instances
         @@instances.clear
@@ -16,8 +15,10 @@ module Jzip
         @@instances[args.first] ||= self.new(*args)
       end
 
-      def initialize(*args)
-        super
+      def initialize(template, source, target)
+        self.template = template
+        self.source = source
+        self.target = target
 
         @file_name   = File.basename(self.template, ".jz") + ".js"
         @target_dir  = File.dirname File.join(self.target, self.template.gsub(self.source, ""))
@@ -135,6 +136,5 @@ module Jzip
       end
 
     end
-
   end
 end
