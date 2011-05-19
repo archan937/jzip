@@ -10,7 +10,7 @@ h2. Alternatives
 
 Prior and after the first release of Jzip, there were / are other Javascript merging and minification libraries for all of us to use of course.
 
-I *recommend* on looking at:
+I *recommend* on taking a look at:
 
 * "Jammit":http://documentcloud.github.com/jammit/
   An industrial strength asset packaging library for Rails built by "DocumentCloud":http://documentcloud.org/. Also well known for "BackboneJS":http://documentcloud.github.com/backbone/.
