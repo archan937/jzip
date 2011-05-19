@@ -1,6 +1,6 @@
 = Jzip CHANGELOG
 
-== Version 1.1.0 (May xxx, 2011)
+== Version 1.1.0 (May 19, 2011)
 
 * Replaced jzip.rake with bin/jzip
 * Using GemSuit for testing
