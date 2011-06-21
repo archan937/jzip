@@ -2,7 +2,7 @@
 
 == Version 1.1.0 (May 19, 2011)
 
-* Replaced jzip.rake with bin/jzip
+* Being able to require Jzip without Rails
 * Using GemSuit for testing
 * Made Jzip Ruby 1.9.2 compatible (thanks to Johan Vermeulen)
 * Dropped Jeweler
