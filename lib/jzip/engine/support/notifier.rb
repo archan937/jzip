@@ -1,3 +1,5 @@
+require "rich/support/core/string/colorize"
+
 module Jzip
   module Engine
     module Support
@@ -5,7 +7,9 @@ module Jzip
 
         def notify(message)
           string = wrap(message)
-          case Jzip::Engine.options[:log_level]
+          case defined?(Rails) ? Jzip::Engine.options[:log_level] : :colorize
+          when :colorize
+            puts message.gsub(/^.*#{File.expand_path(".")}\//, "     create ").gsub("'", "").green if message.include? "Writing"
           when :console
             puts string
           when :error, :info, :debug
