@@ -20,5 +20,4 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_dependency "rich_support", "~> 0.1.1"
-  s.add_dependency "thor"        , "~> 0.14.6"
 end
