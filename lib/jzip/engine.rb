@@ -1,16 +1,20 @@
+require "fileutils"
+require "jzip/engine/support"
+require "jzip/engine/template"
+require "jzip/engine/requirement"
+
 module Jzip
   module Engine
     include Support::Notifier
 
     extend self
 
-    PREDEFINED_SETS = {"defaults" => %w(prototype effects dragdrop controls application)}
-    REG_EXPS        = {:require_statement => /^\/\/\=\s*require\s*/, :partial => /^_/, :default_javascripts => /^\//}
+    PREDEFINED_SETS = {"prototype" => %w(prototype effects dragdrop controls)}
+    REG_EXPS = {:require_statement => /^\/\/\=\s*require\s*/, :partial => /^_/, :default_javascripts => /^\//}
 
     @options = {
-      :minify        => !!(Rails.env.production? if defined? Rails),
-      :always_update =>  !(Rails.env.production? if defined? Rails),
-      :log_level     => nil
+      :minify => false,
+      :always_update => true
     }
 
     attr_reader :root_dir, :options
@@ -29,12 +33,14 @@ module Jzip
       @template_locations << location
     end
 
-    def compile_javascript_files
+    def compile
       return unless @options[:always_update] or @initial_compile
 
       init if @initial_compile
       parse_templates
       @initial_compile = false
+
+      true
     end
 
     def init
@@ -43,7 +49,7 @@ module Jzip
     end
 
     def root_dir
-      @root_dir || (Rails.root if defined? Rails) || File.expand_path(".")
+      @root_dir || File.expand_path(".")
     end
 
     def tmp_dir
@@ -60,7 +66,7 @@ module Jzip
         *@template_locations.collect do |location|
           (location.is_a?(Hash) ? location.to_a : [location].flatten).collect do |x|
             ref = [x].flatten
-            [ref.shift, ref.shift || File.join(root_dir, "public", "javascripts")]
+            [ref.shift, ref.shift || File.join(root_dir, "assets")]
           end
         end.flatten
       ]

@@ -2,10 +2,8 @@
 
 == Version 1.1.0 (May 19, 2011)
 
-* Being able to require Jzip without Rails
-* Using GemSuit for testing
-* Made Jzip Ruby 1.9.2 compatible (thanks to Johan Vermeulen)
-* Dropped Jeweler
+* Dropped Rails support (keep it simple and why compete with Sprockets?)
+* Supporting Ruby 1.9.2
 
 == Version 1.0.11 (November 2, 2010)
 

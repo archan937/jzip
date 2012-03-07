@@ -87,7 +87,7 @@ module Jzip
         dirname  = File.dirname  required_source
 
         source_dirname = required_source.match(REG_EXPS[:default_javascripts]) ?
-                           File.join(Engine.root_dir, "public", "javascripts") :
+                           File.join(Engine.root_dir, "assets") :
                            File.dirname(self.template)
         sources        = begin
                            if PREDEFINED_SETS.include?(basename)

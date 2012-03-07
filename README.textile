@@ -1,6 +1,6 @@
 h1. Jzip
 
-A Rails gem for Javascript merging and compression using templates (like SASS)
+A Ruby gem for Javascript merging and compression using templates (like SASS)
 
 h2. Introduction
 
@@ -21,7 +21,7 @@ You can find more alternatives at "Ruby Toolbox":http://ruby-toolbox.com/categor
 
 h2. Installation
 
-h3. Using Jzip as gem in Rails 3
+h3. Using Bundler
 
 Add Jzip in @Gemfile@ as a gem dependency:
 
@@ -33,20 +33,6 @@ Run the following in your console to install with Bundler:
 
 <pre>
   bundle install
-</pre>
-
-h3. Using Jzip as gem in Rails 2
-
-Add Jzip in @environment.rb@ as a gem dependency:
-
-<pre>
-  config.gem "jzip"
-</pre>
-
-Run the following in your console:
-
-<pre>
-  sudo rake gems:install
 </pre>
 
 h2. Usage
@@ -128,11 +114,13 @@ You can specify a Jzip option by putting the following in your @environment.rb@ 
   Jzip::Engine.options[:log_level]     = :console
 </pre>
 
-h3. In the Rails console
+h3. Compiling Jzip templates
 
-You can run the following commands in the Rails console (with @./script/console@):
+To compile Jzip templates, please call the following:
 
-* @Jzip::Engine.compile_javascript_files@ - which instructs Jzip to compile the Javascript files (this is automatically called at every request)
+<pre>
+  Jzip::Engine.compile
+</pre>
 
 h2. Contact me
 
@@ -140,7 +128,7 @@ For support, remarks and requests please mail me at "paul.engel@holder.nl":mailt
 
 h2. Credit
 
-This Rails engine is inspired by:
+This Ruby gem is inspired by:
 
 AssetPackager<br>
 "http://github.com/sbecker/asset_packager/tree/master":http://github.com/sbecker/asset_packager/tree/master
@@ -155,13 +143,9 @@ h2. Contributors
 
 Mark Mulder - "@bitterzoet":http://twitter.com/bitterzoet - "http://ikbenbitterzoet.com":http://ikbenbitterzoet.com
 
-h2. ToDo's
-
-None.
-
 h2. License
 
-Copyright (c) 2011 Paul Engel, released under the MIT license
+Copyright (c) 2012 Paul Engel, released under the MIT license
 
 "http://holder.nl":http://holder.nl - "http://codehero.es":http://codehero.es - "http://gettopup.com":http://gettopup.com - "http://twitter.com/archan937":http://twitter.com/archan937 - "paul.engel@holder.nl":mailto:paul.engel@holder.nl
 
