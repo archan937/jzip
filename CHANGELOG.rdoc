@@ -1,9 +1,10 @@
 = Jzip CHANGELOG
 
-== Version 1.1.0 (May 19, 2011)
+== Version 2.0.0 (March xx, 2012)
 
-* Dropped Rails support (keep it simple and why compete with Sprockets?)
+* Dropped Rails support (keep it simple and why compete with Jammit or Sprockets?)
 * Supporting Ruby 1.9.2
+* Added Jzip::CLI
 
 == Version 1.0.11 (November 2, 2010)
 

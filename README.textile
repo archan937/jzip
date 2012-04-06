@@ -10,6 +10,8 @@ h2. Alternatives
 
 Prior and after the first release of Jzip, there were / are other Javascript merging and minification libraries for all of us to use of course.
 
+*Update*: As of version 2.0.0, I have introduced the Jzip CLI (command line interface) and dropped hooking Jzip within a Rails application request. You will have to build it yourself.
+
 I *recommend* on taking a look at:
 
 * "Jammit":http://documentcloud.github.com/jammit/
@@ -37,23 +39,15 @@ Run the following in your console to install with Bundler:
 
 h2. Usage
 
-h3. Including generated Javascript files
-
-Just use the @javascript_include_tag@ helper method (e.g. for the @defaults.jz@ template):
-
-<pre>
-  <%= javascript_include_tag "defaults" %>
-</pre>
-
 h3. Creating Jzip templates / partials
 
 A @.jz@ file (Jzip template or partial) is nothing more than a common .js file in which you can require other files for merging. You can do this by simply adding the following:
 
 <pre>
-  //= require < path_to_file or path_to_template or path_to_partial or predefined_set >
+  //= require < path_to_file or path_to_template or path_to_partial >
 </pre>
 
-Just like in Rails views and in SASS, Jzip has partials of which the output file will not be created in the target directory. The path to the Javascript file or Jzip template or partial has to be relative to the Jzip template / partial itself. Please note that specifying a preleading @/@ in the path will be interpreted by Jzip as @RAILS_ROOT/public/javascripts@ (which is very handy).
+Just like in SASS, Jzip has partials of which the output file will not be created in the target directory. The path to the Javascript file or Jzip template or partial has to be relative to the Jzip template / partial itself. Please note that specifying a preleading @/@ in the path will be interpreted by Jzip as @RAILS_ROOT/public/javascripts@ (which is very handy).
 
 Other than the path to a Javascript file, you can also refer to a predefined set of Javascripts sources. At the moment, only @defaults@ is available for the Prototype and Scriptaculous libs and application.js which are shipped with a Rails application. Any suggestions for other predefined sets are welcome.
 
