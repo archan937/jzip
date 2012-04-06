@@ -17,7 +17,9 @@ module Jzip
       :always_update => true
     }
 
-    attr_reader :root_dir, :options
+    @template_locations = []
+
+    attr_reader :root_dir, :options, :template_locations
 
     def root_dir=(value)
       @template_locations.clear
@@ -58,8 +60,7 @@ module Jzip
 
   private
 
-    @template_locations = []
-    @initial_compile    = true
+    @initial_compile = true
 
     def template_refs
       Hash[

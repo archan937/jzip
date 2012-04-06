@@ -16,4 +16,5 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency "rich_support", "0.1.2"
   gem.add_dependency "thor"        , "0.14.6"
+  gem.add_dependency "guard"
 end
