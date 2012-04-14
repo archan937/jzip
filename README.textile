@@ -10,8 +10,6 @@ h2. Alternatives
 
 Prior and after the first release of Jzip, there were / are other Javascript merging and minification libraries for all of us to use of course.
 
-*Update*: As of version 2.0.0, I have introduced the Jzip CLI (command line interface) and dropped hooking Jzip within a Rails application request. You will have to build it yourself.
-
 I *recommend* on taking a look at:
 
 * "Jammit":http://documentcloud.github.com/jammit/
@@ -20,6 +18,15 @@ I *recommend* on taking a look at:
   A Ruby library that preprocesses and concatenates JavaScript source files.
 
 You can find more alternatives at "Ruby Toolbox":http://ruby-toolbox.com/categories/rails_asset_management.html.
+
+h2. Major update
+
+As of version 2.0.0, I have dropped the Rails support. So Jzip will not hook into a Rails application request anymore. You will have to build it yourself.
+
+Also, I have introduced the Jzip CLI (command line interface) which can do the following:
+
+* compile Jzip assets (using @jzip compile@)
+* watch Jzip assets and compile them when changes are made (using @jzip watch@)
 
 h2. Installation
 
@@ -47,26 +54,24 @@ A @.jz@ file (Jzip template or partial) is nothing more than a common .js file i
   //= require < path_to_file or path_to_template or path_to_partial >
 </pre>
 
-Just like in SASS, Jzip has partials of which the output file will not be created in the target directory. The path to the Javascript file or Jzip template or partial has to be relative to the Jzip template / partial itself. Please note that specifying a preleading @/@ in the path will be interpreted by Jzip as @RAILS_ROOT/public/javascripts@ (which is very handy).
+Just like in SASS, Jzip has partials of which the output file will not be created in the target directory. The path to the Javascript file or Jzip template or partial has to be relative to the Jzip template / partial itself. Please note that specifying a preleading @/@ in the path will be interpreted by Jzip as @<root directory>/public/javascripts@ (which is very handy).
 
-Other than the path to a Javascript file, you can also refer to a predefined set of Javascripts sources. At the moment, only @defaults@ is available for the Prototype and Scriptaculous libs and application.js which are shipped with a Rails application. Any suggestions for other predefined sets are welcome.
+Other than the path to a Javascript file, you can also refer to a predefined set of Javascripts sources. At the moment, only @defaults@ is available for the Prototype and Scriptaculous libs. Any suggestions for other predefined sets are welcome.
 
-The following instructs Jzip to merge the Prototype and Scriptaculous libraries with three custom Javascript files into @public/javascripts/foo.js@:
+The following instructs Jzip to merge the Prototype and Scriptaculous libraries with three custom Javascript files into @assets/foo.js@:
 
 *Note*: template is located in @assets/jzip/foo.jz@
 
 <pre>
-  //= require shared/top_up
-  //= require /defaults
-  //= require builder/module
-  //= require builder/model_browser
+  //= require /prototype
+  //= require ext/underscore
+  //= require ext/topup
+  //= require foo/bar
 </pre>
-
-Please see "http://github.com/archan937/jzip/tree/master/test/javascripts/assets/jzip/":http://github.com/archan937/jzip/tree/master/test/javascripts/assets/jzip/ for a complete assets directory example.
 
 h3. Registering template locations
 
-You probably already have guessed that the default location for Jzip templates is @RAILS_ROOT/assets/jzip@. I can imagine that you would have choosen another location. So fortunately, the Jzip engine offers you to that piece of freedom. All you have to do is put the following in your @environment.rb@ file:
+You probably already have guessed that the default location for Jzip templates is @<root directory>/assets/jzip@. I can imagine that you would have choosen another location. So fortunately, the Jzip engine offers you to that piece of freedom. All you have to do is put the following in a Ruby config file (e.g. @config/assets/jzip.rb@) which gets required:
 
 <pre>
   Jzip::Engine.add_template_location < your_own_template_location(s) >
@@ -74,46 +79,56 @@ You probably already have guessed that the default location for Jzip templates i
 
 Now isn't that a piece cake? Not only can you pass a @string@ containing the template location, you can also pass an @array of strings@ (containing multiple locations) or a @hash@ (which also specifies the output directory):
 
-* @string@ - target directory will be @public/javascripts@
+* @string@ - target directory will be @<root directory>/assets@
 
 <pre>
-  RAILS_ROOT + "/lib/jzip
+  ROOT_DIR + "/lib/jzip
 </pre>
 
-* @array@ - target directory will be @public/javascripts@
+* @array@ - target directory will be @<root directory>/assets@
 
 <pre>
-  [RAILS_ROOT + "/some/path/jzip", path/to/your/jzip/templates]
+  [ROOT_DIR + "/some/path/jzip", path/to/your/jzip/templates]
 </pre>
 
-* @hash@ - target directory will be @public/javascripts/your/target_directory@
+* @hash@ - target directory will @public/javascripts/your/target_directory@
 
 <pre>
-  {"path/to/your/jzip/templates" => RAILS_ROOT + "/public/javascripts/your/target_directory"}
+  {"path/to/your/jzip/templates" => ROOT_DIR + "/public/javascripts/your/target_directory"}
 </pre>
 
-h3. Compile options
+h3. Minification
 
-Finally, Jzip has some options that you can configure in the @environment.rb@ file:
+Finally, you can configure Jzip to minify the compiled Javascript source.
 
-* @:minify@        - Minify the merged Javascript file using the JSMin library (default: true when in production environment)
-* @:always_update@ - Merge (and minify when specified) the Jzip templates on every page request when outdated (default: true when not in production environment)
-* @:log_level@     - Which is used for logging, you can pass through the regular Rails log levels (@:error@, @:info@ and @:debug@) and even @:console@ which puts the output in your console (default: nil)
+* @:minify@ - Minify the merged Javascript file using the JSMin library (default: false)
 
-You can specify a Jzip option by putting the following in your @environment.rb@ file:
+Put the following in a Ruby config file (e.g. @config/assets/jzip.rb@) which gets required:
 
 <pre>
-  Jzip::Engine.options[:minify]        = false
-  Jzip::Engine.options[:always_update] = true
-  Jzip::Engine.options[:log_level]     = :console
+  Jzip::Engine.options[:minify] = true
 </pre>
 
 h3. Compiling Jzip templates
 
-To compile Jzip templates, please call the following:
+To compile Jzip templates, please call the following in Ruby code:
 
 <pre>
   Jzip::Engine.compile
+</pre>
+
+Also, you can compile Jzip templates from the command line:
+
+<pre>
+  $ jzip compile
+</pre>
+
+h3. Watch Jzip templates and compile when changed
+
+Just like SASS, you can let Jzip watch its templates and let it compile automatically when changes are made. Run the following in the command line:
+
+<pre>
+  $ jzip watch
 </pre>
 
 h2. Contact me
@@ -136,6 +151,7 @@ Also, the Jzip engine makes use of the Ruby JavaScript Minifier created by Dougl
 h2. Contributors
 
 Mark Mulder - "@bitterzoet":http://twitter.com/bitterzoet - "http://ikbenbitterzoet.com":http://ikbenbitterzoet.com
+Johan Vermeulen - "@johpie":http://twitter.com/johpie - "http://www.prutz-lan.nl":http://www.prutz-lan.nl
 
 h2. License
 

@@ -8,7 +8,7 @@ module Jzip
     extend self
 
     PREDEFINED_SETS = {"prototype" => %w(prototype effects dragdrop controls)}
-    REG_EXPS = {:require_statement => /^\/\/\=\s*require\s*/, :partial => /^_/, :default_javascripts => /^\//}
+    REG_EXPS = {:require_statement => /^\/\/\=\s*require\s*/, :partial => /^_/, :public_javascripts => /^\//}
 
     @options = {
       :minify => false
