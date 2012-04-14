@@ -5,26 +5,23 @@ require "jzip/engine/requirement"
 
 module Jzip
   module Engine
-    include Support::Notifier
-
     extend self
 
     PREDEFINED_SETS = {"prototype" => %w(prototype effects dragdrop controls)}
     REG_EXPS = {:require_statement => /^\/\/\=\s*require\s*/, :partial => /^_/, :default_javascripts => /^\//}
 
     @options = {
-      :minify => false,
-      :always_update => true
+      :minify => false
     }
-
     @template_locations = []
 
     attr_reader :root_dir, :options, :template_locations
 
     def root_dir=(value)
-      @template_locations.clear
-      @initial_compile = true
-      @root_dir        = value
+      @template_locations.delete assets_dir if root_dir
+      @root_dir = value
+      @template_locations.unshift assets_dir
+      FileUtils.mkdir_p tmp_dir
     end
 
     def options=(value)
@@ -35,32 +32,22 @@ module Jzip
       @template_locations << location
     end
 
-    def compile
-      return unless @options[:always_update] or @initial_compile
-
-      init if @initial_compile
-      parse_templates
-      @initial_compile = false
-
-      true
-    end
-
-    def init
-      @template_locations.unshift File.join(root_dir, "assets", "jzip")
-      FileUtils.mkdir_p tmp_dir
-    end
-
-    def root_dir
-      @root_dir || File.expand_path(".")
+    def assets_dir
+      File.join root_dir, "assets", "jzip"
     end
 
     def tmp_dir
-      File.join(root_dir, "tmp", "jzip")
+      File.join root_dir, "tmp", "jzip"
+    end
+
+    def compile
+      parse_templates
+      true
     end
 
   private
 
-    @initial_compile = true
+    self.root_dir = File.expand_path(".")
 
     def template_refs
       Hash[
@@ -74,16 +61,12 @@ module Jzip
     end
 
     def parse_templates
-      notify "Compiling templates..."
-
       Template.clear_instances
       template_refs.each do |source, target|
         Dir.glob(File.join(source, "**", "[^_]*.jz")).each do |template|
           Template.build(template, source, target).parse
         end
       end
-
-      notify "Done"
     end
 
   end

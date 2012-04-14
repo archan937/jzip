@@ -6,7 +6,7 @@ module Jzip
       module Notifier
 
         def notify(message)
-          puts message.gsub(/^.*#{File.expand_path(".")}\//, "     create ").gsub("'", "").green if message.include? "Writing"
+          puts message.green
         end
 
       end

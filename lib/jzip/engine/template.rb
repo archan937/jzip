@@ -31,11 +31,7 @@ module Jzip
       end
 
       def parse
-        unless requires_parsing?
-          notify "Skipping  '#{self.template}'"
-        else
-          notify "Parsing   '#{self.template}'"
-
+        if requires_parsing?
           @code = @segments.collect do |segment|
                     segment.is_a?(Requirement) ?
                       segment.code :
@@ -55,9 +51,7 @@ module Jzip
       end
 
       def outdated?
-        return true if missing?
-        notify "Outdated  '#{self.template}'" if result = File.mtime(@target_file) < File.mtime(self.template)
-        result
+        missing? || (File.mtime(@target_file) < File.mtime(self.template))
       end
 
       def partial?
@@ -109,7 +103,7 @@ module Jzip
       end
 
       def write_file
-        notify "Writing   '#{@target_file}'"
+        notify "  create #{@target_file.gsub(/#{File.expand_path(".")}\//, "")}"
 
         FileUtils.mkdir_p @target_dir
         File.open(@target_file, "w") do |f|
@@ -127,8 +121,7 @@ module Jzip
       end
 
       def missing?
-        notify "Missing   '#{@target_file}'" if result = !target_file?
-        result
+        !target_file?
       end
 
       def target_file?

@@ -3,11 +3,8 @@ module Jzip
 
     Requirement = Struct.new(:file, :source, :target, :overrule_minification) do
 
-      include Support::Notifier
-
       def newer?(mtime)
-        notify "Newer     '#{target_file}'" if result = mtime < File.mtime(target_file)
-        result
+        mtime < File.mtime(target_file)
       end
 
       def parse
