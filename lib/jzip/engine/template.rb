@@ -20,10 +20,10 @@ module Jzip
         self.source = source
         self.target = target
 
-        @file_name   = File.basename(self.template, ".jz") + ".js"
-        @target_dir  = File.dirname File.join(self.target, self.template.gsub(self.source, ""))
-        if partial?
-          @target_dir.gsub! Engine.root_dir, Engine.tmp_dir
+        @file_name = File.basename(self.template, ".jz") + ".js"
+        @target_dir = begin
+          dir = partial? ? self.target.gsub(Engine.options[:root_dir], Engine.tmp_dir) : self.target
+          File.dirname File.join dir, self.template.gsub(self.source, "")
         end
         @target_file = File.join @target_dir, @file_name
 
@@ -80,8 +80,8 @@ module Jzip
         basename = File.basename required_source
         dirname  = File.dirname  required_source
 
-        source_dirname = required_source.match(REG_EXPS[:public_javascripts]) ?
-                           File.join(Engine.root_dir, "public", "javascripts") :
+        source_dirname = required_source.match(REG_EXPS[:output_dir]) ?
+                           Engine.options[:output_dir] :
                            File.dirname(self.template)
         sources        = begin
                            if PREDEFINED_SETS.include?(basename)

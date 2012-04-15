@@ -54,11 +54,11 @@ A @.jz@ file (Jzip template or partial) is nothing more than a common .js file i
   //= require < path_to_file or path_to_template or path_to_partial >
 </pre>
 
-Just like in SASS, Jzip has partials of which the output file will not be created in the target directory. The path to the Javascript file or Jzip template or partial has to be relative to the Jzip template / partial itself. Please note that specifying a preleading @/@ in the path will be interpreted by Jzip as @<root directory>/public/javascripts@ (which is very handy).
+Just like in SASS, Jzip has partials of which the output file will not be created in the target directory. The path to the Javascript file or Jzip template or partial has to be relative to the Jzip template / partial itself. Please note that specifying a preleading @/@ in the path will be interpreted by Jzip as @Jzip::Engine.options[:output_dir]@ (which is very handy).
 
-Other than the path to a Javascript file, you can also refer to a predefined set of Javascripts sources. At the moment, only @defaults@ is available for the Prototype and Scriptaculous libs. Any suggestions for other predefined sets are welcome.
+Other than the path to a Javascript file, you can also refer to a predefined set of Javascripts sources. At the moment, only @prototype@ is available for Prototype and Scriptaculous libs. Any suggestions for other predefined sets are welcome.
 
-The following instructs Jzip to merge the Prototype and Scriptaculous libraries with three custom Javascript files into @assets/foo.js@:
+The following instructs Jzip to merge the Prototype and Scriptaculous libraries (located in the output directory) with three custom Javascript files into @assets/foo.js@:
 
 *Note*: template is located in @assets/jzip/foo.jz@
 
@@ -71,53 +71,63 @@ The following instructs Jzip to merge the Prototype and Scriptaculous libraries 
 
 h3. Registering template locations
 
-You probably already have guessed that the default location for Jzip templates is @<root directory>/assets/jzip@. I can imagine that you would have choosen another location. So fortunately, the Jzip engine offers you to that piece of freedom. All you have to do is put the following in a Ruby config file (e.g. @config/assets/jzip.rb@) which gets required:
+You probably already have guessed that the default location for Jzip templates is @<root directory>/assets/jzip@. I can imagine that you would have choosen another location. So fortunately, the Jzip engine offers you to that piece of freedom. All you have to do is put the following in a Ruby config file (e.g. @config/assets/jzip.rb@) which you require:
 
 <pre>
   Jzip::Engine.add_template_location < your_own_template_location(s) >
 </pre>
 
-Now isn't that a piece cake? Not only can you pass a @string@ containing the template location, you can also pass an @array of strings@ (containing multiple locations) or a @hash@ (which also specifies the output directory):
+Not only can you pass a @string@ containing the template location, you can also pass an @array of strings@ (containing multiple locations) or a @hash@ (which also specifies the output directory):
 
-* @string@ - target directory will be @<root directory>/assets@
+* @string@ - target directory will be @Jzip::Engine.options[:output_dir]@
 
 <pre>
-  ROOT_DIR + "/lib/jzip
+  "some/path/jzip
 </pre>
 
-* @array@ - target directory will be @<root directory>/assets@
+* @array@ - target directory will be @Jzip::Engine.options[:output_dir]@
 
 <pre>
   [ROOT_DIR + "/some/path/jzip", path/to/your/jzip/templates]
 </pre>
 
-* @hash@ - target directory will @public/javascripts/your/target_directory@
+* @hash@ - target directory will @ROOT_DIR + "public/javascripts/your/target_directory"@
 
 <pre>
   {"path/to/your/jzip/templates" => ROOT_DIR + "/public/javascripts/your/target_directory"}
 </pre>
 
-h3. Minification
+h3. Jzip::Engine.options
 
-Finally, you can configure Jzip to minify the compiled Javascript source.
+Finally, Jzip has some options that you can configure in a Ruby config file (e.g. @config/assets/jzip.rb@) which you require:
 
-* @:minify@ - Minify the merged Javascript file using the JSMin library (default: false)
+* @:minify@ - Minify the merged Javascript file using the JSMin library (default: @false@)
+* @:root_dir@ - The directory used as root directory (default: @File.expand_path(".")@)
+* @:assets_dir@ - The default directory used for locating Jzip assets (default: @<root dir>/libs/jzip@ when existing, otherwise @<root dir>/assets/jzip@)
+* @:output_dir@ - The default directory used for storing compiled Javascript files (default:  @<root dir>/public/javascripts@ when existing, otherwise @<root dir>/assets@)
 
-Put the following in a Ruby config file (e.g. @config/assets/jzip.rb@) which gets required:
+Specify options like the following in the config file:
 
 <pre>
   Jzip::Engine.options[:minify] = true
+  Jzip::Engine.options[:root_dir] = SOME_ROOT_DIR
+  Jzip::Engine.options[:assets_dir] = File.join SOME_ROOT_DIR, "some/assets_dir"
+  Jzip::Engine.options[:output_dir] = File.join SOME_ROOT_DIR, "some/output_dir"
 </pre>
 
 h3. Compiling Jzip templates
 
-To compile Jzip templates, please call the following in Ruby code:
+To compile Jzip templates, please call the following method:
 
 <pre>
   Jzip::Engine.compile
 </pre>
 
-Also, you can compile Jzip templates from the command line:
+h2. Command line interface (CLI)
+
+h3. Compiling Jzip templates
+
+You can compile Jzip templates from the command line like this:
 
 <pre>
   $ jzip compile
@@ -130,6 +140,23 @@ Just like SASS, you can let Jzip watch its templates and let it compile automati
 <pre>
   $ jzip watch
 </pre>
+
+h3. Passing options
+
+You can pass options when compiling or watching assets:
+
+* @-m@ or @--minify@ - Set @Jzip::Engine.options[:minify]@ to @true@
+* @-r@ or @--root_dir@ - Set @Jzip::Engine.options[:root_dir]@ to @File.expand_path <passed parameter>@
+* @-a@ or @--assets_dir@ - Set @Jzip::Engine.options[:assets_dir]@ to @File.expand_path <passed parameter>@
+* @-o@ or @--output_dir@ - Set @Jzip::Engine.options[:output_dir]@ to @File.expand_path <passed parameter>@
+
+An example which customizes the assets dir and minifies the output:
+
+<pre>
+  $ jzip compile -m --assets_dir=custom/assets_dir
+</pre>
+
+Also, run @jzip help compile@ or @jzip help watch@ to acquire the available options.
 
 h2. Contact me
 
