@@ -58,7 +58,6 @@ module Jzip
     end
 
     def parse_templates
-      FileUtils.mkdir_p tmp_dir unless File.exists? tmp_dir
       Template.clear_instances
       template_refs.each do |source, target|
         Dir.glob(File.join(source, "**", "[^_]*.jz")).each do |template|
