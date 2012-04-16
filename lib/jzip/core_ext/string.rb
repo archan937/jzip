@@ -8,8 +8,4 @@ class String
     self.strip.gsub(Regexp.new([Jzip::Engine::REG_EXPS[:require_statement].source, ("\!?" if exclude_exclamation_mark)].compact.join), "").strip if self.jzip_require_statement?
   end
 
-  def overrule_jzip_minification?
-    !!required_jzip_source(false).match(/^!/) if self.jzip_require_statement?
-  end
-
 end

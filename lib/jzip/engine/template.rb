@@ -58,6 +58,10 @@ module Jzip
         !!@file_name.match(REG_EXPS[:partial])
       end
 
+      def minify?
+        Jzip::Engine::options[:minify]
+      end
+
     private
 
       def scan_template
@@ -65,7 +69,7 @@ module Jzip
         @segments     = File.readlines(self.template).inject([]) do |segments, line|
                           if line.jzip_require_statement?
                             derive_required_source(line.required_jzip_source).each do |file|
-                              @requirements << Requirement.new(file, self.source, self.target, line.overrule_jzip_minification?)
+                              @requirements << Requirement.new(file, self.source, self.target)
                               segments      << @requirements.last
                             end
                           else
@@ -109,6 +113,8 @@ module Jzip
         File.open(@target_file, "w") do |f|
           f.write @code
         end
+
+        Support::Minifier.parse @target_file if minify?
       end
 
       def requires_parsing?
