@@ -101,7 +101,7 @@ h3. Jzip::Engine.options
 
 Finally, Jzip has some options that you can configure in a Ruby config file (e.g. @config/assets/jzip.rb@) which you require:
 
-* @:minify@ - Minify the merged Javascript file using the JSMin library (default: @false@)
+* @:minify@ - Minify the merged Javascript file using the "Yahoo's YUI Compressor":http://developer.yahoo.com/yui/compressor/ library (default: @false@)
 * @:root_dir@ - The directory used as root directory (default: @File.expand_path(".")@)
 * @:assets_dir@ - The default directory used for locating Jzip assets (default: @<root dir>/libs/jzip@ when existing, otherwise @<root dir>/assets/jzip@)
 * @:output_dir@ - The default directory used for storing compiled Javascript files (default:  @<root dir>/public/javascripts@ when existing, otherwise @<root dir>/assets@)
@@ -172,8 +172,8 @@ AssetPackager<br>
 SASS<br>
 "http://sass-lang.com":http://sass-lang.com
 
-Also, the Jzip engine makes use of the Ruby JavaScript Minifier created by Douglas Crockford<br>
-"http://www.crockford.com/javascript/jsmin.html":http://www.crockford.com/javascript/jsmin.html
+Also, the Jzip engine makes use of Yahoo's YUI Compressor<br>
+"http://developer.yahoo.com/yui/compressor":http://developer.yahoo.com/yui/compressor
 
 h2. Contributors
 
