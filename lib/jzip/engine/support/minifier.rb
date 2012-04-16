@@ -6,7 +6,7 @@ module Jzip
 
         def parse(file)
           compressor = File.expand_path "../yuicompressor-2.4.2.jar", __FILE__
-          `java -jar #{compressor} -v #{file} -o #{file}`
+          `java -jar #{compressor} #{file} -o #{file}`
           true
         end
 
