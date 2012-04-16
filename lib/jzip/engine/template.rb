@@ -101,6 +101,7 @@ module Jzip
           base   = File.basename source
 
           [File.join(dir, "_#{base}.jz"),
+           File.join(dir, "_#{base}.js"),
            File.join(dir,  "#{base}.jz"),
            File.join(dir,  "#{base}.js")].detect{|f| File.exists?(f)}
         end.compact
