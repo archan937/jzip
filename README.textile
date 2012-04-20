@@ -17,7 +17,7 @@ I *recommend* on taking a look at:
 * "Sprockets":http://getsprockets.com/
   A Ruby library that preprocesses and concatenates JavaScript source files.
 
-You can find more alternatives at "Ruby Toolbox":http://ruby-toolbox.com/categories/rails_asset_management.html.
+You can find more alternatives at "Ruby Toolbox":https://www.ruby-toolbox.com/categories/Asset_Management.
 
 h2. Major update
 
